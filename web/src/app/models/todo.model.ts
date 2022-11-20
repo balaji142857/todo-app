@@ -6,7 +6,7 @@ export interface Todo {
     priority: string;
     title: string;
     description?: string;
-    due?: Date;
+    dueBy?: string;
     status: string;
 
 }

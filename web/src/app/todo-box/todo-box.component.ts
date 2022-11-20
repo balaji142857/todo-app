@@ -4,6 +4,7 @@ import { RestService } from '../services/rest.service';
 import { Todo } from '../models/todo.model';
 import { StaticDataService } from '../services/static-data.service';
 import { Label } from '../models/label.model';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-todo-box',
@@ -31,6 +32,12 @@ export class TodoBoxComponent {
   filteredPriorities: string[] = [];
   filteredStatus: string[] = [];
   filteredLabels: number[] =[];
+  filteredDate : any;
+
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl()
+  });
   
   constructor(public service: RestService, public staticData: StaticDataService) {
 
@@ -53,6 +60,25 @@ export class TodoBoxComponent {
   // TODO  this is directly invoked from UI binding!!!!!!
   containsAny(arr1: number[], arr2: number[]) : boolean {
     return  arr1.some(it => arr2.includes(it));
+  }
+
+  //TODO - this is also getting invoked directly from UI binding!!
+  dateInRange(dateStr: string,from: any, to: any) : boolean {
+    
+    if (!dateStr.length) {
+      return false;
+    }
+    console.log('invoked',dateStr, from, to)
+    var dueDate = new Date(dateStr);
+    if (!from) {
+        return dueDate <= to;
+    }
+    if(!to) {
+      return dueDate >= from;
+   }
+    return dueDate >= from && dueDate <=to;
+      
+      
   }
 
   drop(event: CdkDragDrop<Todo[]>, dropStatus: string): void {

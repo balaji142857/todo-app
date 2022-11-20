@@ -19,6 +19,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatRippleModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { HttpClientModule } from '@angular/common/http';
 import { TodoBoxComponent } from './todo-box/todo-box.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -45,6 +47,8 @@ import { TodoComponent } from './todo/todo.component';
     MatListModule,
     MatTableModule,
     MatExpansionModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatRippleModule,
     MatPaginatorModule,
     MatSelectModule,

@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -17,7 +17,7 @@ public class TodoModel {
     private String priority;
     private String title;
     private String description;
-    private LocalDateTime due;
+    private LocalDate dueBy;
     private String status;
 
 }
