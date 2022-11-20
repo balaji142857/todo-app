@@ -1,0 +1,24 @@
+<!-- <div class="container" *ngFor="let curStatus of status">
+  <h2>{{ curStatus }}</h2>
+  <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="curStatus"
+      [cdkDropListConnectedTo]="status.filter(function(item) { return item !== curStatus })" class="list" (cdkDropListDropped)="drop($event, curStatus)">
+      <app-todo class="list-item" *ngFor="let item of todo" [item]="item" [cdkDragData]="item" cdkDrag></app-todo>
+  </div>
+</div> -->
+
+
+<div class="container">
+  <h2>To do</h2>
+  <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo"
+      [cdkDropListConnectedTo]="doneList" class="list" (cdkDropListDropped)="drop($event,'TBD')">
+      <app-todo class="list-item" *ngFor="let item of todo" [item]="item" [cdkDragData]="item" cdkDrag></app-todo>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Done</h2>
+  <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="done"
+      [cdkDropListConnectedTo]="todoList" class="list" (cdkDropListDropped)="drop($event,'done')">
+      <app-todo class="list-item" *ngFor="let item of done" [item]="item" [cdkDragData]="item" cdkDrag></app-todo>
+  </div>
+</div>

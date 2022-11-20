@@ -1,0 +1,26 @@
+// priority
+$critical: #fc0524;
+$high: #e77700;
+$medium: #146d97;
+$low: #014e02;
+$ignore: #2d2c2b;
+
+.critical {
+  background-color: $critical;
+}
+.high {
+  background-color: $high;
+}
+.medium {
+  background-color: $medium;
+}
+.low {
+  background-color: $low;
+}
+.ignore {
+  background-color: $ignore;
+}
+
+.example-card {
+    max-width: 400px;
+  }

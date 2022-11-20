@@ -11,22 +11,30 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { TodoTableComponent } from './todo-table/todo-table.component';
+import { TodoTableComponent } from './purge/todo-table/todo-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCardModule } from '@angular/material/card'
 import { MatSortModule } from '@angular/material/sort';
+import { HttpClientModule } from '@angular/common/http';
+import { TodoBoxComponent } from './todo-box/todo-box.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { TodoComponent } from './todo/todo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BaseNavComponent,
-    TodoTableComponent
+    TodoTableComponent,
+    TodoBoxComponent,
+    TodoComponent
   ],
   imports: [
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    HttpClientModule,
     LayoutModule,
     MatToolbarModule,
     MatButtonModule,
@@ -35,7 +43,9 @@ import { MatSortModule } from '@angular/material/sort';
     MatListModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatCardModule,
+    DragDropModule    
   ],
   providers: [],
   bootstrap: [AppComponent]

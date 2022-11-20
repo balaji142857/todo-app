@@ -10,14 +10,30 @@ export class TodoService {
   constructor() { }
 
 
-  list() : Observable<Todo[]> {
-    return of([{
-      title: 'first todo',
-      description: 'some description',
-      due: new Date(),
+  list() : Todo[] {
+    return [{
+      title: 'first list first todo',
+      description: 'some description',      
       id: 1,
-      label: [1,3]
-    }]);
+      labels: [1,3],
+      priority: 'high'
+    },{
+      title: 'first list second todo',
+      description: 'some other description',      
+      id: 1,
+      labels: [1,3],
+      priority: 'medium'
+    }];
+  }
+
+  list1() : Todo[] {
+    return [{
+      title: 'second list first todo',
+      description: 'another description',      
+      id: 1,
+      labels: [1,3],
+      priority: 'critical'
+    }];
   }
 
   get() {}
