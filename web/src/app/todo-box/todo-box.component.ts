@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { TodoService } from '../services/todo.service';
+import { RestService } from '../services/rest.service';
 import { Todo } from '../models/todo.model';
 import { StaticDataService } from '../services/static-data.service';
+import { Label } from '../models/label.model';
 
 @Component({
   selector: 'app-todo-box',
@@ -10,31 +11,48 @@ import { StaticDataService } from '../services/static-data.service';
   styleUrls: ['./todo-box.component.scss'],
 })
 export class TodoBoxComponent {
-  // todo = [
-  //   'Get to work',
-  //   'Pick up groceries',
-  //   'Go home',
-  //   'Fall asleep'
-  // ];
 
-  // done = [
-  //   'Get up',
-  //   'Brush teeth',
-  //   'Take a shower',
-  //   'Check e-mail',
-  //   'Walk dog'
-  // ];
+  tbd: Todo[] = [];
+  inProgress: Todo[]= [];
+  hold: Todo[] =[];
+  completed: Todo[] =[];
 
+  statusToTodoMapping: any = {
+    'TBD': this.tbd,
+    'IN PROGRESS': this.inProgress,
+    'COMPLETED': this.completed,
+    'HOLD': this.hold
+  }
 
-  todo: Todo[] = [];
-  done: Todo[]= [];
   status: string[] = [];
+  priorities: string[] = [];
+  labels: Label[] = [];
 
-  constructor(public service: TodoService, public staticData: StaticDataService) {
-    this.todo = service.list();
-    this.done = service.list1();
+  filteredPriorities: string[] = [];
+  filteredStatus: string[] = [];
+  filteredLabels: number[] =[];
+  
+  constructor(public service: RestService, public staticData: StaticDataService) {
 
-    staticData.status().subscribe(data => this.status = data)
+    staticData.priorities().subscribe(data => this.priorities = data);
+    staticData.status().subscribe(data => this.status = data);
+    service.labels().subscribe(data => this.labels = data);
+
+    service.todos().subscribe(data => {
+        let todoArr: Todo[] = <any>data;
+        for(var i=0; i < todoArr.length; i ++) {
+          this.statusToTodoMapping[todoArr[i].status].push(todoArr[i]);
+        }
+    });
+  }
+
+  getOtherStatus(curStatus:string) {
+    return this.status.filter(curItem => curItem != curStatus)
+  }
+
+  // TODO  this is directly invoked from UI binding!!!!!!
+  containsAny(arr1: number[], arr2: number[]) : boolean {
+    return  arr1.some(it => arr2.includes(it));
   }
 
   drop(event: CdkDragDrop<Todo[]>, dropStatus: string): void {

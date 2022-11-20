@@ -1,6 +1,5 @@
 package com.bk.todo.web;
 
-import com.bk.todo.model.Label;
 import com.bk.todo.model.Priority;
 import com.bk.todo.model.Status;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -8,14 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping("/static/")
 @CrossOrigin
-public class StaticDataHandler {
+public class StaticDataController {
 
    @GetMapping("priorities")
    public List<String> priorities() {

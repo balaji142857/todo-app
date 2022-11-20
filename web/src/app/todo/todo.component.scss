@@ -2,24 +2,22 @@
 $critical: #fc0524;
 $high: #e77700;
 $medium: #146d97;
-$low: #014e02;
-$ignore: #2d2c2b;
+$low: #2d2c2b;
+$ignore: #014e02;
 
-.critical {
+.CRITICAL {
   background-color: $critical;
 }
-.high {
+.HIGH {
   background-color: $high;
 }
-.medium {
+.MEDIUM {
   background-color: $medium;
 }
-.low {
+.LOW {
   background-color: $low;
 }
-.ignore {
-  background-color: $ignore;
-}
+
 
 .example-card {
     max-width: 400px;

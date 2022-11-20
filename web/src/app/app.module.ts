@@ -11,11 +11,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { TodoTableComponent } from './purge/todo-table/todo-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card'
 import { MatSortModule } from '@angular/material/sort';
+import { MatSelectModule } from '@angular/material/select';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatRippleModule } from '@angular/material/core';
 import { HttpClientModule } from '@angular/common/http';
 import { TodoBoxComponent } from './todo-box/todo-box.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -25,7 +28,6 @@ import { TodoComponent } from './todo/todo.component';
   declarations: [
     AppComponent,
     BaseNavComponent,
-    TodoTableComponent,
     TodoBoxComponent,
     TodoComponent
   ],
@@ -42,7 +44,11 @@ import { TodoComponent } from './todo/todo.component';
     MatIconModule,
     MatListModule,
     MatTableModule,
+    MatExpansionModule,
+    MatRippleModule,
     MatPaginatorModule,
+    MatSelectModule,
+    MatChipsModule,
     MatSortModule,
     MatCardModule,
     DragDropModule    

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { TodoService } from '../services/todo.service';
+import { RestService } from '../services/rest.service';
 
 @Component({
   selector: 'app-base-nav',
@@ -19,7 +19,7 @@ export class BaseNavComponent {
     );
 
   constructor(private breakpointObserver: BreakpointObserver,
-    public service: TodoService) {
+    public service: RestService) {
 
   }
 
