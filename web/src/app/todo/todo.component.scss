@@ -18,7 +18,36 @@ $ignore: #014e02;
   background-color: $low;
 }
 
+:host ::ng-deep .mat-card-header-text {
+  margin-left: 0px;
+}
 
 .example-card {
     max-width: 400px;
+}
+.action-wrapper {
+  display: flex;
+  .priority, .due-date {
+    flex-basis: 60%;
   }
+  .due-date{
+    text-align: right;
+    margin-right: 5px;
+  }
+}
+
+mat-chip-list.labels {
+  display: flex;
+}
+mat-card-title {
+  font-size: 15px;
+}
+mat-card-content {
+  font-size: 12px;
+}
+mat-card-actions {
+  font-size: 10px;
+}
+mat-chip {
+  font-size: 8px;
+}

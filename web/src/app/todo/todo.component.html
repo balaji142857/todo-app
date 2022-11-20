@@ -1,22 +1,26 @@
 <div style="display: block" cdkDrag  >
     <mat-card class="example-card" [ngClass]="[item.priority]">
         <mat-card-header>
-          <mat-card-title>{{ item.title }}</mat-card-title>
+          <mat-card-title >{{ item.title }}</mat-card-title>
           <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
         </mat-card-header>
         <mat-card-content>         
           <p>{{ item.description }}</p>          
         </mat-card-content>
         <mat-card-actions>
-          <mat-select [(ngModel)]="item.priority" placeholder="Priority">
-            <mat-option *ngFor="let option of priorities" [value]="option">{{option}}</mat-option>
-          </mat-select>
-          <!-- <button mat-button>{{ item.priority }}</button> -->
-          <!-- <ng-container *ngIf="item.lebels"></ng-container> -->
-            <mat-chip-list>
-              <mat-chip *ngFor="let label of item.labels">{{ util.findElementByProp(labels,'id',label).value }}</mat-chip>
-            </mat-chip-list> 
-
+          <div class="action-wrapper">
+            <mat-select [(ngModel)]="item.priority" placeholder="Priority" class="priority">
+              <mat-option *ngFor="let option of priorities" [value]="option">{{option}}</mat-option>
+            </mat-select>
+            <div class="due-date">
+                <ng-container *ngIf="item.dueBy">
+                  {{ item.dueBy }}
+                </ng-container>
+            </div>              
+          </div>
+          <mat-chip-list class="labels">
+            <mat-chip *ngFor="let label of item.labels">{{ util.findElementByProp(labels,'id',label).value }}</mat-chip>
+          </mat-chip-list>
         </mat-card-actions>
     </mat-card>
 </div>

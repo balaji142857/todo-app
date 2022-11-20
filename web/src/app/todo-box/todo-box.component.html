@@ -5,131 +5,135 @@
       <app-todo class="list-item" *ngFor="let item of todo" [item]="item" [cdkDragData]="item" cdkDrag></app-todo>
   </div>
 </div> -->
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>Filter by labels, due date, status, priorities etc</mat-panel-title>
-      <!-- <mat-panel-description> Filter the todos by label, date, status, priorities etc </mat-panel-description> -->
-    </mat-expansion-panel-header>
-    <div class="filter-wrapper">
-      <mat-form-field appearance="fill">
-        <mat-label>Priorities</mat-label>
-        <!-- [formControl]="toppings"  -->
-        <mat-select multiple [(ngModel)]="filteredPriorities">
-          <mat-option *ngFor="let priority of priorities" [value]="priority">{{ priority }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Status</mat-label>
-        <mat-select multiple [(ngModel)]="filteredStatus">
-          <mat-option *ngFor="let curStauts of status" [value]="curStauts">{{ curStauts }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Labels</mat-label>
-        <!-- [formControl]="toppings"  -->
-        <mat-select multiple [(ngModel)]="filteredLabels">
-          <mat-option *ngFor="let label of labels" [value]="label.id">{{ label.value }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [formGroup]="range" [rangePicker]="picker" >
-          <input matStartDate formControlName="start" placeholder="Start date">
-          <input matEndDate formControlName="end" placeholder="End date">
-        </mat-date-range-input>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
-      
-        <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-      </mat-form-field>
-
-    </div>
-    
-  </mat-expansion-panel>
 <div class="wrapper">
+  <div class="filter-wrapper">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Filter by labels, due date, status, priorities etc</mat-panel-title>
+        <!-- <mat-panel-description> Filter the todos by label, date, status, priorities etc </mat-panel-description> -->
+      </mat-expansion-panel-header>
+      <div class="filter-content-wrapper">
+        <mat-form-field appearance="fill">
+          <mat-label>Priorities</mat-label>
+          <!-- [formControl]="toppings"  -->
+          <mat-select multiple [(ngModel)]="filteredPriorities">
+            <mat-option *ngFor="let priority of priorities" [value]="priority">{{ priority }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Status</mat-label>
+          <mat-select multiple [(ngModel)]="filteredStatus">
+            <mat-option *ngFor="let curStauts of status" [value]="curStauts">{{ curStauts }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Labels</mat-label>
+          <!-- [formControl]="toppings"  -->
+          <mat-select multiple [(ngModel)]="filteredLabels">
+            <mat-option *ngFor="let label of labels" [value]="label.id">{{ label.value }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [formGroup]="range" [rangePicker]="picker" >
+            <input matStartDate formControlName="start" placeholder="Start date">
+            <input matEndDate formControlName="end" placeholder="End date">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        
+          <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+          <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+        </mat-form-field>
+  
+      </div>
+      
+    </mat-expansion-panel>
+  </div>
   <!-- TODO  duplicates.. cleanup-->
-  <div class="container">
-    <h2>Hold</h2>
-    <div cdkDropList #holdList="cdkDropList" [cdkDropListData]="hold"
-        [cdkDropListConnectedTo]="[inProgressList,completedList,tbdList]" class="list" (cdkDropListDropped)="drop($event,'HOLD')">
-        <ng-container *ngFor="let item of hold">
-          <app-todo class="list-item"
-          [priorities]="priorities"
-          *ngIf="(filteredPriorities.length == 0 || filteredPriorities.indexOf(item.priority) >= 0) && 
-          (filteredStatus.length == 0 || filteredStatus.indexOf(item.status) >= 0) &&
-          (filteredLabels.length == 0 ||  containsAny(filteredLabels, item.labels ? item.labels : [])) && 
-          ((!range.value.start && !range.value.end ) || ((range.value.start || range.value.end ) &&  dateInRange(item.dueBy ? item.dueBy : '', range.value.start, range.value.end)))"
-          [item]="item"
-          [labels]="labels"
-          [cdkDragData]="item"
-          cdkDrag>
-          </app-todo>
-      </ng-container>
-    </div>
-  </div>
-
-  <div class="container">
-    <h2>TBD</h2>
-    <div cdkDropList #tbdList="cdkDropList" [cdkDropListData]="tbd"
-        [cdkDropListConnectedTo]="[inProgressList,completedList,holdList]" class="list" (cdkDropListDropped)="drop($event,'TBD')">
-        <ng-container *ngFor="let item of tbd">
-          <app-todo class="list-item" 
-            [priorities]="priorities"          
-            *ngIf="(filteredPriorities.length == 0 || filteredPriorities.indexOf(item.priority) >= 0) && 
-          (filteredStatus.length == 0 || filteredStatus.indexOf(item.status) >= 0)  &&
-          (filteredLabels.length == 0 ||  containsAny(filteredLabels, item.labels ? item.labels : []))  && 
-          ((!range.value.start && !range.value.end ) || ((range.value.start || range.value.end ) &&  dateInRange(item.dueBy ? item.dueBy : '', range.value.start, range.value.end)))"
-            [item]="item"
-            [labels]="labels"
-            [cdkDragData]="item"
-            cdkDrag>
-          </app-todo>
-      </ng-container>
-    </div>
-  </div>
-
-  <div class="container">
-    <h2>In Progress</h2>
-    <div cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgress"
-        [cdkDropListConnectedTo]="[tbdList,completedList,holdList]" class="list" (cdkDropListDropped)="drop($event,'IN PROGRESS')">
-        <ng-container *ngFor="let item of inProgress">
-          <app-todo
-            class="list-item"
+  <div class="todo-box-wrapper">
+    <div class="container">
+      <h2>Hold</h2>
+      <div cdkDropList #holdList="cdkDropList" [cdkDropListData]="hold"
+          [cdkDropListConnectedTo]="[inProgressList,completedList,tbdList]" class="list" (cdkDropListDropped)="drop($event,'HOLD')">
+          <ng-container *ngFor="let item of hold">
+            <app-todo class="list-item"
             [priorities]="priorities"
             *ngIf="(filteredPriorities.length == 0 || filteredPriorities.indexOf(item.priority) >= 0) && 
-          (filteredStatus.length == 0 || filteredStatus.indexOf(item.status) >= 0)  &&
-          (filteredLabels.length == 0 ||  containsAny(filteredLabels, item.labels ? item.labels : []))  && 
-          ((!range.value.start && !range.value.end ) || ((range.value.start || range.value.end ) &&  dateInRange(item.dueBy ? item.dueBy : '', range.value.start, range.value.end)))"
+            (filteredStatus.length == 0 || filteredStatus.indexOf(item.status) >= 0) &&
+            (filteredLabels.length == 0 ||  containsAny(filteredLabels, item.labels ? item.labels : [])) && 
+            ((!range.value.start && !range.value.end ) || ((range.value.start || range.value.end ) &&  dateInRange(item.dueBy ? item.dueBy : '', range.value.start, range.value.end)))"
             [item]="item"
             [labels]="labels"
             [cdkDragData]="item"
             cdkDrag>
-          </app-todo>
+            </app-todo>
         </ng-container>
-        
-        
+      </div>
     </div>
-  </div>
 
-  <div class="container">
-    <h2>Completed</h2>
-    <div cdkDropList #completedList="cdkDropList" [cdkDropListData]="completed"
-        [cdkDropListConnectedTo]="[tbdList,inProgressList,holdList]" class="list" (cdkDropListDropped)="drop($event,'COMPLETED')">
-        <ng-container *ngFor="let item of completed">
-          <app-todo
-            class="list-item"
-            [priorities]="priorities"
-            *ngIf="(filteredPriorities.length == 0 || filteredPriorities.indexOf(item.priority) >= 0) && 
-          (filteredStatus.length == 0 || filteredStatus.indexOf(item.status) >= 0)  &&
-          (filteredLabels.length == 0 ||  containsAny(filteredLabels, item.labels ? item.labels : []))  && 
-          ((!range.value.start && !range.value.end ) || ((range.value.start || range.value.end ) &&  dateInRange(item.dueBy ? item.dueBy : '', range.value.start, range.value.end)))"
-            [item]="item"
-            [labels]="labels"
-            [cdkDragData]="item"
-            cdkDrag>
-          </app-todo>
-        </ng-container>        
+    <div class="container">
+      <h2>TBD</h2>
+      <div cdkDropList #tbdList="cdkDropList" [cdkDropListData]="tbd"
+          [cdkDropListConnectedTo]="[inProgressList,completedList,holdList]" class="list" (cdkDropListDropped)="drop($event,'TBD')">
+          <ng-container *ngFor="let item of tbd">
+            <app-todo class="list-item" 
+              [priorities]="priorities"          
+              *ngIf="(filteredPriorities.length == 0 || filteredPriorities.indexOf(item.priority) >= 0) && 
+            (filteredStatus.length == 0 || filteredStatus.indexOf(item.status) >= 0)  &&
+            (filteredLabels.length == 0 ||  containsAny(filteredLabels, item.labels ? item.labels : []))  && 
+            ((!range.value.start && !range.value.end ) || ((range.value.start || range.value.end ) &&  dateInRange(item.dueBy ? item.dueBy : '', range.value.start, range.value.end)))"
+              [item]="item"
+              [labels]="labels"
+              [cdkDragData]="item"
+              cdkDrag>
+            </app-todo>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="container">
+      <h2>In Progress</h2>
+      <div cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgress"
+          [cdkDropListConnectedTo]="[tbdList,completedList,holdList]" class="list" (cdkDropListDropped)="drop($event,'IN PROGRESS')">
+          <ng-container *ngFor="let item of inProgress">
+            <app-todo
+              class="list-item"
+              [priorities]="priorities"
+              *ngIf="(filteredPriorities.length == 0 || filteredPriorities.indexOf(item.priority) >= 0) && 
+            (filteredStatus.length == 0 || filteredStatus.indexOf(item.status) >= 0)  &&
+            (filteredLabels.length == 0 ||  containsAny(filteredLabels, item.labels ? item.labels : []))  && 
+            ((!range.value.start && !range.value.end ) || ((range.value.start || range.value.end ) &&  dateInRange(item.dueBy ? item.dueBy : '', range.value.start, range.value.end)))"
+              [item]="item"
+              [labels]="labels"
+              [cdkDragData]="item"
+              cdkDrag>
+            </app-todo>
+          </ng-container>
+          
+          
+      </div>
+    </div>
+
+    <div class="container">
+      <h2>Completed</h2>
+      <div cdkDropList #completedList="cdkDropList" [cdkDropListData]="completed"
+          [cdkDropListConnectedTo]="[tbdList,inProgressList,holdList]" class="list" (cdkDropListDropped)="drop($event,'COMPLETED')">
+          <ng-container *ngFor="let item of completed">
+            <app-todo
+              class="list-item"
+              [priorities]="priorities"
+              *ngIf="(filteredPriorities.length == 0 || filteredPriorities.indexOf(item.priority) >= 0) && 
+            (filteredStatus.length == 0 || filteredStatus.indexOf(item.status) >= 0)  &&
+            (filteredLabels.length == 0 ||  containsAny(filteredLabels, item.labels ? item.labels : []))  && 
+            ((!range.value.start && !range.value.end ) || ((range.value.start || range.value.end ) &&  dateInRange(item.dueBy ? item.dueBy : '', range.value.start, range.value.end)))"
+              [item]="item"
+              [labels]="labels"
+              [cdkDragData]="item"
+              cdkDrag>
+            </app-todo>
+          </ng-container>        
+      </div>
     </div>
   </div>
 </div>
