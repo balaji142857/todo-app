@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { BaseNavComponent } from './base-nav/base-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,6 +19,7 @@ import { MatCardModule } from '@angular/material/card'
 import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
+import {TextFieldModule} from '@angular/cdk/text-field';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -48,6 +51,9 @@ import { TodoComponent } from './todo/todo.component';
     MatTableModule,
     MatExpansionModule,
     MatDatepickerModule,
+    TextFieldModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatNativeDateModule,
     MatRippleModule,
     MatPaginatorModule,
