@@ -1,22 +1,5 @@
 // priority
-$critical: #fc0524;
-$high: #e77700;
-$medium: #146d97;
-$low: #2d2c2b;
-$ignore: #014e02;
 
-.CRITICAL {
-  background-color: $critical;
-}
-.HIGH {
-  background-color: $high;
-}
-.MEDIUM {
-  background-color: $medium;
-}
-.LOW {
-  background-color: $low;
-}
 
 :host ::ng-deep .mat-card-header-text {
   margin-left: 0px;
@@ -38,9 +21,21 @@ $ignore: #014e02;
 
 mat-chip-list.labels {
   display: flex;
+  margin-top: 10px;
+  mat-chip {
+    border: 1px solid;
+  }
 }
 mat-card-title {
   font-size: 15px;
+  .todo-title{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    mat-icon {
+      margin-left: 5px;
+    }
+  }
 }
 mat-card-content {
   font-size: 12px;

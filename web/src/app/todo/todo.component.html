@@ -1,20 +1,16 @@
 <div style="display: block" cdkDrag  >
     <mat-card class="example-card" [ngClass]="[item.priority]">
         <mat-card-header>
-          <mat-card-title >{{ item.title }}</mat-card-title>
-          <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+          <mat-card-title>
+            <div class="todo-title">
+              {{ item.title }}
+              <mat-icon (click)="openDialog()">edit</mat-icon>
+            </div>
+          </mat-card-title>
+          <mat-card-subtitle *ngIf="item.description"> {{ item.description }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content> 
-          <mat-form-field appearance="fill">
-            <mat-label>description</mat-label>
-            <textarea matInput
-                      name="description"
-                      [(ngModel)]="item.description"
-                      cdkTextareaAutosize
-                      #autosize="cdkTextareaAutosize"
-                      cdkAutosizeMinRows="3"
-                      cdkAutosizeMaxRows="10"></textarea>
-          </mat-form-field>
+          
         </mat-card-content>
         <mat-card-actions>
           <div class="action-wrapper">
@@ -23,12 +19,12 @@
             </mat-select>
             <div class="due-date">
                 <ng-container *ngIf="item.dueBy">
-                  {{ item.dueBy }}
+                  {{ item.dueBy  | date }}
                 </ng-container>
             </div>              
           </div>
           <mat-chip-list class="labels">
-            <mat-chip *ngFor="let label of item.labels">{{ util.findElementByProp(labels,'id',label).value }}</mat-chip>
+            <mat-chip  [ngClass]="[item.priority]" *ngFor="let label of item.labels">{{ util.findElementByProp(labels,'id',label).value }}</mat-chip>
           </mat-chip-list>
         </mat-card-actions>
     </mat-card>

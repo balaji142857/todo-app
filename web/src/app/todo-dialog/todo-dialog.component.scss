@@ -1,0 +1,41 @@
+.title-section{
+    display: flex;
+    align-items: center;
+    mat-icon {
+        margin-left: 5px;
+    }
+}
+.metadata-wrapper {
+    .options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        mat-select {
+            flex-basis: 35%;
+        }
+    }
+    .labels {
+        margin: 10px 0;
+        display: flex;
+        .added-labels {
+            flex-basis: 70%;
+        }
+        mat-select {
+            flex-basis: 32%;
+        }
+        mat-chip {
+            border: 1.5px solid;
+        }
+    }
+}
+.mat-typography{
+    height: 66%;
+}
+.example-full-width{
+    width: 100%;
+}
+
+:host ::ng-deep mat-checkbox.mat-checkbox-checked {
+    text-decoration: line-through;
+
+}

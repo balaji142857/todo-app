@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -19,5 +20,7 @@ public class TodoModel {
     private String description;
     private LocalDate dueBy;
     private String status;
+    @Builder.Default
+    private List<String> items = new ArrayList<>();
 
 }

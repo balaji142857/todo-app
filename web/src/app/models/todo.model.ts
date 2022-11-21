@@ -8,5 +8,6 @@ export interface Todo {
     description?: string;
     dueBy?: string;
     status: string;
+    items: string[]
 
 }

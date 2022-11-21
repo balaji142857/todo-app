@@ -73,3 +73,37 @@ $custom-typography: mat-typography-config($font-family: '"Oswald", sans-serif;')
    /* Support for IE. */
    font-feature-settings: 'liga';
  }
+
+
+$critical: #f81332f1;
+$high: #e77700;
+$medium: #146d97;
+$low: #2d2c2b;
+$ignore: #014e02;
+
+// checkbox theme per the class
+
+.CRITICAL {
+  background-color: $critical !important;
+  .mat-dialog-container {
+    background-color: $critical !important;
+  }
+}
+.HIGH {
+  background-color: $high !important;
+  .mat-dialog-container {
+    background-color: $high !important;
+  }
+}
+.MEDIUM {
+  background-color: $medium !important;
+  .mat-dialog-container {
+    background-color: $medium !important;
+  }
+}
+.LOW {
+  background-color: $low !important;
+  .mat-dialog-container {
+    background-color: $low !important;
+  }
+}

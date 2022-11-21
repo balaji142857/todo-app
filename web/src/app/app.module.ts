@@ -19,8 +19,10 @@ import { MatCardModule } from '@angular/material/card'
 import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
-import {TextFieldModule} from '@angular/cdk/text-field';
+import { TextFieldModule } from '@angular/cdk/text-field';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -28,13 +30,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { TodoBoxComponent } from './todo-box/todo-box.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TodoComponent } from './todo/todo.component';
+import { TodoDialogComponent } from './todo-dialog/todo-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BaseNavComponent,
     TodoBoxComponent,
-    TodoComponent
+    TodoComponent,
+    TodoDialogComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -56,6 +60,8 @@ import { TodoComponent } from './todo/todo.component';
     MatInputModule,
     MatNativeDateModule,
     MatRippleModule,
+    MatDialogModule,
+    MatCheckboxModule,
     MatPaginatorModule,
     MatSelectModule,
     MatChipsModule,

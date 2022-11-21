@@ -3,8 +3,10 @@ package com.bk.todo.config.entities;
 import com.bk.todo.model.Label;
 import com.bk.todo.model.Priority;
 import com.bk.todo.model.Status;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Todo {
