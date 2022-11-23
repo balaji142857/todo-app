@@ -7,6 +7,8 @@ import { Label } from '../models/label.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { TodoDialogComponent } from '../todo-dialog/todo-dialog.component';
 
 @Component({
   selector: 'app-todo-box',
@@ -42,7 +44,9 @@ export class TodoBoxComponent {
     end: new FormControl()
   });
   
-  constructor(public service: RestService, public staticData: StaticDataService) {
+  constructor(public service: RestService,
+    public staticData: StaticDataService,
+    public dialog: MatDialog) {
 
     staticData.priorities().subscribe(data => this.priorities = data);
     staticData.status().subscribe(data => this.status = data);
@@ -110,4 +114,40 @@ export class TodoBoxComponent {
       selectBox.options.forEach((item: MatOption) => item.deselect());
     }
   }
+
+  newTodo() {
+    const todoItem = this.getDefaultTodo();
+    const dialogRef = this.dialog.open(TodoDialogComponent, {
+      data: {
+        model: todoItem,
+        priorities: this.priorities,
+        labels: this.labels
+      },
+      height: '80vh',
+      width: '80vw',
+      position : {
+        left: '10vw',
+        top: '10vh'
+      },
+      panelClass: todoItem.priority
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  //TODO get this from backend -- and fetch it from user preference
+  getDefaultTodo(): Todo {
+    return {
+      items: [],
+      priority: 'LOW',
+      status: 'TBD',
+      title: 'Todo List title',
+      labels: [],
+      description: '',
+      dueBy: new Date().toISOString().split('T')[0]
+    }
+  }
+
 }

@@ -2,14 +2,13 @@ package com.bk.todo.web;
 
 import com.bk.todo.TodoService;
 import com.bk.todo.entities.TodoList;
-import com.bk.todo.model.Label;
+import com.bk.todo.model.Priority;
+import com.bk.todo.model.Status;
 import com.bk.todo.model.TodoModel;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +43,22 @@ public class TodoController {
     @PostMapping
     public TodoModel save(@RequestBody TodoModel item) {
         log.info("Received save request {}",item);
+        var dbEntity = entity(item);
+        service.save(dbEntity);
         return item;
     }
 
     TodoList entity(TodoModel model) {
-        TodoList list = new TodoList();
-        list.setId(model.getId());
-        return list;
+        TodoList entity = new TodoList();
+        entity.setId(model.getId());
+        entity.setDue(model.getDueBy());
+        entity.setPriority(Priority.fromString(model.getPriority()));
+        entity.setStatus(Status.fromString(model.getStatus()));
+        entity.setItems(model.getItems());//TODO this is entity directly from UI
+//        entity.setLabels(model.getLabels()); TODO
+        entity.setDescription(model.getDescription());
+        entity.setTitle(model.getTitle());
+        return entity;
     }
 
     TodoModel model(TodoList entity) {

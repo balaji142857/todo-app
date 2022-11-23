@@ -22,7 +22,7 @@
 <mat-dialog-content class="mat-typography" [ngClass]="[todo.priority]">
   <div class="metadata-wrapper">
   <div class="options">
-    <mat-select [(ngModel)]="todo.priority" placeholder="Priority" class="priority">
+    <mat-select [(ngModel)]="todo.priority" placeholder="Priority" class="priority" (ngModelChange)="priorityChanged(todo.priority, $event)">
       <mat-option *ngFor="let option of data.priorities" [value]="option">{{option}}</mat-option>
     </mat-select>
     <mat-select placeholder="labels" (selectionChange)="labelSelected($event)">

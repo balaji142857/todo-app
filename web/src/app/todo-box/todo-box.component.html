@@ -17,7 +17,7 @@
           <mat-label>Priorities</mat-label>
           <!-- [formControl]="toppings"  -->
           <mat-select multiple [(ngModel)]="filteredPriorities" #prioritiesSelect>
-            <div class="select-all">
+            <div class="select-all" >
               <mat-checkbox [(ngModel)]="allSelected"
                               [ngModelOptions]="{standalone: true}"
                               (change)="toggleAllSelection(prioritiesSelect)">Select All</mat-checkbox>
@@ -141,4 +141,7 @@
       </div>
     </div>
   </div>
+  <button mat-fab class="fab-new-todo" color="primary" (click)="newTodo()">
+    <mat-icon>add</mat-icon>
+  </button>
 </div>

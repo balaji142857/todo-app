@@ -5,6 +5,7 @@
             <div class="todo-title">
               {{ item.title }}
               <mat-icon (click)="openDialog()">edit</mat-icon>
+              <mat-icon>history</mat-icon>
             </div>
           </mat-card-title>
           <mat-card-subtitle *ngIf="item.description"> {{ item.description }}</mat-card-subtitle>

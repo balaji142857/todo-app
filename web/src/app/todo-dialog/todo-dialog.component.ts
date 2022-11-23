@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material/dialog';
 import { Todo } from '../models/todo.model';
 import { UtilService } from '../services/util.service';
 import { MatSelectChange } from '@angular/material/select';
@@ -23,9 +23,12 @@ export class TodoDialogComponent implements OnInit {
 
   constructor( public dialogRef: MatDialogRef<TodoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    // @Inject(MAT_DIALOG_DEFAULT_OPTIONS) public config: MatDialogConfig,
     public service: RestService,
     public util: UtilService) { 
     this.todo = data.model;
+    // config.panelClass='CRITICAL';
+    
     if (!this.todo.labels) {
       this.todo.labels = [];
     }
@@ -112,6 +115,13 @@ export class TodoDialogComponent implements OnInit {
     const labelIndex: number = this.todo.labels.indexOf(labelId);
     this.todo.labels?.splice(labelIndex, 1);
     this.labels.push(this.util.findElementByProp(this.data.labels, 'id', labelId));
+  }
+
+  priorityChanged(model: string, event: any) {
+    console.log(model, event);
+    this.dialogRef.removePanelClass(['CRITICAL','HIGH','MEDIUM','LOW']);
+    this.dialogRef.addPanelClass(event);
+
   }
 
 }
