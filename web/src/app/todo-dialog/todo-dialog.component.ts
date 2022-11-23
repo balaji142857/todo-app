@@ -4,6 +4,8 @@ import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { Todo } from '../models/todo.model';
 import { UtilService } from '../services/util.service';
 import { MatSelectChange } from '@angular/material/select';
+import { TodoItem } from '../models/todo-item.model';
+import { RestService } from '../services/rest.service';
 
 
 
@@ -21,6 +23,7 @@ export class TodoDialogComponent implements OnInit {
 
   constructor( public dialogRef: MatDialogRef<TodoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    public service: RestService,
     public util: UtilService) { 
     this.todo = data.model;
     if (!this.todo.labels) {
@@ -36,11 +39,15 @@ export class TodoDialogComponent implements OnInit {
     if (!this.newTodoText.length || !this.newTodoText.trim().length) {
       return;
     }
-    this.todo.items.push(this.newTodoText);
+    const todoItem:TodoItem = {
+      isCompleted: false,
+      description: this.newTodoText
+    }
+    this.todo.items.push(todoItem);
     this.newTodoText = '';
   }
 
-  drop(event: CdkDragDrop<string[]>): void {
+  drop(event: CdkDragDrop<TodoItem[]>): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } 
@@ -54,11 +61,15 @@ export class TodoDialogComponent implements OnInit {
   }
 
   closeDialog() {
-    this.dialogRef.close();
+    // this.dialogRef.close();
   }
 
   saveChanges() {
-    //TODO invoke the save call to the backend
+    console.log('sending todo ', this.todo);
+    this.service.saveTodo(this.todo).subscribe(
+      data => console.log, // this.dialogRef.close() ,
+      err => console.log
+    );
   }
 
   saveTitle() {

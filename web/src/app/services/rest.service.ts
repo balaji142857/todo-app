@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as env from '../..//environments/environment';
@@ -13,13 +13,22 @@ export class RestService {
   constructor(private http: HttpClient) { }
 
   basePath = env.environment.backendUrl;
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json'
+    })
+  };
 
 
   todos(): Observable<Todo[]> {
-    return this.http.get<Todo[]>(this.basePath+'todos');
+    return this.http.get<Todo[]>(this.basePath+'todos/list');
   }
 
   labels(): Observable<Label[]> {
     return this.http.get<Label[]>(this.basePath+'labels');
+  }
+
+  saveTodo(todo: Todo) {
+    return this.http.post(this.basePath+'todos', todo, this.httpOptions);
   }
 }

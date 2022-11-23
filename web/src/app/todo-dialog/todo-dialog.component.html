@@ -1,12 +1,22 @@
 <h3 mat-dialog-title>
   <div class="title-section">
-    <span *ngIf="!isTitleInEditMode">{{ todo.title }}</span>
-    <mat-icon (click)="isTitleInEditMode = !isTitleInEditMode" *ngIf="!isTitleInEditMode">edit</mat-icon>
-    <ng-container *ngIf="isTitleInEditMode">
-      <mat-form-field  appearance="fill" >
-        <input matInput placeholder="Todo title" [(ngModel)]="todo.title" (blur)="saveTitle()" (keyup)="something($event, true)">
+    <div class="left">
+      <span *ngIf="!isTitleInEditMode">{{ todo.title }}</span>
+      <mat-icon (click)="isTitleInEditMode = !isTitleInEditMode" *ngIf="!isTitleInEditMode">edit</mat-icon>
+      <ng-container *ngIf="isTitleInEditMode">
+        <mat-form-field  appearance="fill" >
+          <input matInput placeholder="Todo List title" [(ngModel)]="todo.title" (blur)="saveTitle()" (keyup)="something($event, true)">
+        </mat-form-field>
+      </ng-container>
+    </div>
+    <div class="right">
+      <mat-form-field appearance="fill">
+        <mat-label>Due date</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="todo.dueBy">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-    </ng-container>
+    </div>    
   </div>
 </h3>
 <mat-dialog-content class="mat-typography" [ngClass]="[todo.priority]">
@@ -15,12 +25,9 @@
     <mat-select [(ngModel)]="todo.priority" placeholder="Priority" class="priority">
       <mat-option *ngFor="let option of data.priorities" [value]="option">{{option}}</mat-option>
     </mat-select>
-    <mat-form-field appearance="fill">
-      <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="todo.dueBy">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+    <mat-select placeholder="labels" (selectionChange)="labelSelected($event)">
+      <mat-option *ngFor="let label of labels" [value]="label.id">{{label.value}}</mat-option>
+    </mat-select>    
   </div>
   <div class="labels">
     <div class="added-labels">
@@ -28,19 +35,18 @@
         <mat-chip *ngFor="let chip of todo.labels" [ngClass]="[todo.priority]" (click)="addOptionBack(chip)">{{ util.findElementByProp(data.labels, 'id', chip).value }}</mat-chip>
       </mat-chip-list>
     </div>
-    <mat-select placeholder="labels" (selectionChange)="labelSelected($event)">
-      <mat-option *ngFor="let label of labels" [value]="label.id">{{label.value}}</mat-option>
-    </mat-select>    
+    
   </div>
 </div>
-  <mat-form-field class="example-full-width" appearance="fill" >
+  <mat-form-field class="full-width" appearance="fill" >
     <mat-label>Enter new todo item here</mat-label>
     <input matInput placeholder="Ex Schedule appointment" [(ngModel)]="newTodoText" (blur)="someMethod()" (keyup)="something($event, false)">
   </mat-form-field>
   <div class="items-container" cdkDropList #itemsList="cdkDropList" [cdkDropListData]="todo.items"
-    class="list" (cdkDropListDropped)="drop($event)">
-    <div  *ngFor="let item of todo.items" cdkDrag [cdkDragData]="item" >
-        <mat-checkbox> {{ item }} </mat-checkbox>
+    (cdkDropListDropped)="drop($event)">
+    <div *ngFor="let item of todo.items; let i = index" cdkDrag [cdkDragData]="item" class="todo-item">      
+        <mat-checkbox [(ngModel)]="item.isCompleted"> {{ item.description }} </mat-checkbox>
+        <mat-icon (click)="todo.items.splice(i,1)">delete</mat-icon>
     </div>
   </div>
 </mat-dialog-content>

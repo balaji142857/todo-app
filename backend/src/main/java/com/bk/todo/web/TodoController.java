@@ -1,11 +1,17 @@
 package com.bk.todo.web;
 
+import com.bk.todo.TodoService;
+import com.bk.todo.entities.TodoList;
+import com.bk.todo.model.Label;
 import com.bk.todo.model.TodoModel;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.bk.todo.model.Priority.*;
@@ -13,14 +19,51 @@ import static com.bk.todo.model.Status.*;
 
 @RestController
 @RequestMapping("/todos")
+@RequiredArgsConstructor
+@Slf4j
 public class TodoController {
+
+    private final TodoService service;
+
+    @GetMapping("/list")
+    public List<TodoModel> list1() {
+        var items = service.findAll();
+        var result =  items.stream().map(this::model).toList();
+        return result;
+    }
 
     @GetMapping
     public List<TodoModel> list() {
         return List.of(
-                TodoModel.builder().dueBy(LocalDate.of(2022,11,25)).labels(List.of(1)).status(IN_PROGRESS.getValue()).id(1L).priority(CRITICAL.name()).title("Critical Task").description("some critical desc").build(),
-                TodoModel.builder().dueBy(LocalDate.of(2022,11,21)).labels(List.of(2,3)).status(COMPLETED.getValue()).id(2L).priority(HIGH.name()).title("High Task").description("some high desc").build(),
-                TodoModel.builder().dueBy(LocalDate.of(2022,12,25)).labels(List.of(4)).status(TBD.getValue()).id(3L).priority(MEDIUM.name()).title("Medium Task").description("some medium desc").build(),
-                TodoModel.builder().dueBy(LocalDate.of(2022,11,26)).id(4L).status(ON_HOLD.getValue()).priority(LOW.name()).title("Low Task").description("some low desc").build());
+                TodoModel.builder().dueBy(LocalDateTime.now()).labels(List.of(1L)).status(IN_PROGRESS.getValue()).id(1L).priority(CRITICAL.name()).title("Critical Task").description("some critical desc").build(),
+                TodoModel.builder().dueBy(LocalDateTime.now()).labels(List.of(2L,3L)).status(COMPLETED.getValue()).id(2L).priority(HIGH.name()).title("High Task").description("some high desc").build(),
+                TodoModel.builder().dueBy(LocalDateTime.now()).labels(List.of(4L)).status(TBD.getValue()).id(3L).priority(MEDIUM.name()).title("Medium Task").description("some medium desc").build(),
+                TodoModel.builder().dueBy(LocalDateTime.now()).id(4L).status(ON_HOLD.getValue()).priority(LOW.name()).title("Low Task").description("some low desc").build());
+    }
+
+    @PostMapping
+    public TodoModel save(@RequestBody TodoModel item) {
+        log.info("Received save request {}",item);
+        return item;
+    }
+
+    TodoList entity(TodoModel model) {
+        TodoList list = new TodoList();
+        list.setId(model.getId());
+        return list;
+    }
+
+    TodoModel model(TodoList entity) {
+        var model = new TodoModel();
+        return TodoModel.builder()
+                .id(entity.getId())
+                .title(entity.getTitle())
+                .dueBy(entity.getDue())
+                .description(entity.getDescription())
+                .labels(null != entity.getLabels() ? entity.getLabels().stream().map(label -> label.getId()).toList() : new ArrayList<>())
+//                .items(entity.getItems())
+                .status(entity.getStatus().getValue())
+                .priority(entity.getPriority().name())
+                .build();
     }
 }

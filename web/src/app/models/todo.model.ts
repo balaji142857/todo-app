@@ -1,3 +1,4 @@
+import { TodoItem } from "./todo-item.model";
 
 export interface Todo {
 
@@ -8,6 +9,6 @@ export interface Todo {
     description?: string;
     dueBy?: string;
     status: string;
-    items: string[]
+    items: TodoItem[]
 
 }

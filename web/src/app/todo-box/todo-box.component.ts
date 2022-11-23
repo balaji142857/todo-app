@@ -5,6 +5,8 @@ import { Todo } from '../models/todo.model';
 import { StaticDataService } from '../services/static-data.service';
 import { Label } from '../models/label.model';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-todo-box',
@@ -17,6 +19,7 @@ export class TodoBoxComponent {
   inProgress: Todo[]= [];
   hold: Todo[] =[];
   completed: Todo[] =[];
+  allSelected = false;
 
   statusToTodoMapping: any = {
     'TBD': this.tbd,
@@ -95,6 +98,16 @@ export class TodoBoxComponent {
           event.previousIndex,
           event.currentIndex);
           console.log(event.container.data,'container data');
+    }
+  }
+
+  // TODO -- this is purely related to checkbox.. why bloat this component with checkbox logic
+  toggleAllSelection(selectBox: MatSelect) {
+    let op : MatOption;
+    if (this.allSelected) {
+      selectBox.options.forEach((item: MatOption) => item.select());
+    } else {
+      selectBox.options.forEach((item: MatOption) => item.deselect());
     }
   }
 }

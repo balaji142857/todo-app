@@ -17,11 +17,11 @@ public class StaticDataController {
 
    @GetMapping("priorities")
    public List<String> priorities() {
-       return Arrays.asList(Priority.values()).stream().map(Priority::name).toList();
+       return Arrays.stream(Priority.values()).map(Priority::name).toList();
    }
 
     @GetMapping("status")
     public List<String> status() {
-        return Arrays.asList(Status.values()).stream().map(Status::getValue).toList();
+        return Arrays.stream(Status.values()).map(Status::getValue).toList();
     }
 }

@@ -12,4 +12,13 @@ public enum Status {
     Status(String value) {
         this.value = value;
     }
+
+    public static Status fromString(String text) {
+        for (Status b : Status.values()) {
+            if (b.value.equalsIgnoreCase(text)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Invalid value "+text +" for " + Status.class.getName() +" enum");
+    }
 }

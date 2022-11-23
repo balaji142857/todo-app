@@ -1,8 +1,19 @@
 .title-section{
     display: flex;
     align-items: center;
+    justify-content: space-between;
     mat-icon {
         margin-left: 5px;
+    }
+    .left {
+        display: flex;
+        align-items: center;
+        mat-form-field {
+            font-size: 12px;
+        }
+    }
+    .right {
+        font-size: 12px;
     }
 }
 .metadata-wrapper {
@@ -19,10 +30,7 @@
         display: flex;
         .added-labels {
             flex-basis: 70%;
-        }
-        mat-select {
-            flex-basis: 32%;
-        }
+        }        
         mat-chip {
             border: 1.5px solid;
         }
@@ -31,11 +39,22 @@
 .mat-typography{
     height: 66%;
 }
-.example-full-width{
+.full-width{
     width: 100%;
 }
 
 :host ::ng-deep mat-checkbox.mat-checkbox-checked {
     text-decoration: line-through;
+}
 
+.items-container {
+    .todo-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 5px 0;
+        width: 100%;
+        padding: 0 5px;
+    }
+    
 }
