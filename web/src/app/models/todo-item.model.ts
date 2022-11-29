@@ -1,5 +1,6 @@
 export interface TodoItem {
     id?: number;
-    isCompleted: boolean;
+    completed: boolean;
     description: string;
+    itemOrder: number;
 }

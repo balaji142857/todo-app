@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MatBadgeModule } from '@angular/material/badge';
 import { BaseNavComponent } from './base-nav/base-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -31,6 +32,8 @@ import { TodoBoxComponent } from './todo-box/todo-box.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TodoComponent } from './todo/todo.component';
 import { TodoDialogComponent } from './todo-dialog/todo-dialog.component';
+import { TodoHistoryDialogComponent } from './todo-history-dialog/todo-history-dialog.component';
+import { TodoItemSortPipe } from './todo-item-sort.pipe';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,9 @@ import { TodoDialogComponent } from './todo-dialog/todo-dialog.component';
     BaseNavComponent,
     TodoBoxComponent,
     TodoComponent,
-    TodoDialogComponent
+    TodoDialogComponent,
+    TodoHistoryDialogComponent,
+    TodoItemSortPipe
   ],
   imports: [
     BrowserAnimationsModule,
@@ -59,6 +64,7 @@ import { TodoDialogComponent } from './todo-dialog/todo-dialog.component';
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
+    MatBadgeModule,
     MatRippleModule,
     MatDialogModule,
     MatCheckboxModule,

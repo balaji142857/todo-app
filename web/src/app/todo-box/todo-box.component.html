@@ -62,13 +62,14 @@
       <div cdkDropList #holdList="cdkDropList" [cdkDropListData]="hold" 
           [cdkDropListConnectedTo]="[inProgressList,completedList,tbdList]" class="list" (cdkDropListDropped)="drop($event,'HOLD')">
           <ng-container *ngFor="let item of hold">
-            <app-todo class="list-item"
-            [priorities]="priorities"
+            <app-todo class="list-item"            
             *ngIf="(filteredPriorities.length == 0 || filteredPriorities.indexOf(item.priority) >= 0) && 
             (filteredStatus.length == 0 || filteredStatus.indexOf(item.status) >= 0) &&
             (filteredLabels.length == 0 ||  containsAny(filteredLabels, item.labels ? item.labels : [])) && 
             ((!range.value.start && !range.value.end ) || ((range.value.start || range.value.end ) &&  dateInRange(item.dueBy ? item.dueBy : '', range.value.start, range.value.end)))"
             [item]="item"
+            [priorities]="priorities"
+            [statuses]="status"
             [labels]="labels"
             [cdkDragData]="item"
             cdkDrag>
@@ -82,14 +83,15 @@
       <div cdkDropList #tbdList="cdkDropList" [cdkDropListData]="tbd"
           [cdkDropListConnectedTo]="[inProgressList,completedList,holdList]" class="list" (cdkDropListDropped)="drop($event,'TBD')">
           <ng-container *ngFor="let item of tbd">
-            <app-todo class="list-item" 
-              [priorities]="priorities"          
+            <app-todo class="list-item"               
               *ngIf="(filteredPriorities.length == 0 || filteredPriorities.indexOf(item.priority) >= 0) && 
             (filteredStatus.length == 0 || filteredStatus.indexOf(item.status) >= 0)  &&
             (filteredLabels.length == 0 ||  containsAny(filteredLabels, item.labels ? item.labels : []))  && 
             ((!range.value.start && !range.value.end ) || ((range.value.start || range.value.end ) &&  dateInRange(item.dueBy ? item.dueBy : '', range.value.start, range.value.end)))"
               [item]="item"
+              [priorities]="priorities"
               [labels]="labels"
+              [statuses]="status"
               [cdkDragData]="item"
               cdkDrag>
             </app-todo>
@@ -103,13 +105,14 @@
           [cdkDropListConnectedTo]="[tbdList,completedList,holdList]" class="list" (cdkDropListDropped)="drop($event,'IN PROGRESS')">
           <ng-container *ngFor="let item of inProgress">
             <app-todo
-              class="list-item"
-              [priorities]="priorities"
+              class="list-item"              
               *ngIf="(filteredPriorities.length == 0 || filteredPriorities.indexOf(item.priority) >= 0) && 
             (filteredStatus.length == 0 || filteredStatus.indexOf(item.status) >= 0)  &&
             (filteredLabels.length == 0 ||  containsAny(filteredLabels, item.labels ? item.labels : []))  && 
             ((!range.value.start && !range.value.end ) || ((range.value.start || range.value.end ) &&  dateInRange(item.dueBy ? item.dueBy : '', range.value.start, range.value.end)))"
               [item]="item"
+              [priorities]="priorities"
+              [statuses]="status"
               [labels]="labels"
               [cdkDragData]="item"
               cdkDrag>
@@ -126,13 +129,14 @@
           [cdkDropListConnectedTo]="[tbdList,inProgressList,holdList]" class="list" (cdkDropListDropped)="drop($event,'COMPLETED')">
           <ng-container *ngFor="let item of completed">
             <app-todo
-              class="list-item"
-              [priorities]="priorities"
+              class="list-item"              
               *ngIf="(filteredPriorities.length == 0 || filteredPriorities.indexOf(item.priority) >= 0) && 
             (filteredStatus.length == 0 || filteredStatus.indexOf(item.status) >= 0)  &&
             (filteredLabels.length == 0 ||  containsAny(filteredLabels, item.labels ? item.labels : []))  && 
             ((!range.value.start && !range.value.end ) || ((range.value.start || range.value.end ) &&  dateInRange(item.dueBy ? item.dueBy : '', range.value.start, range.value.end)))"
               [item]="item"
+              [priorities]="priorities"
+              [statuses]="status"
               [labels]="labels"
               [cdkDragData]="item"
               cdkDrag>

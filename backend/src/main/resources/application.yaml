@@ -3,6 +3,21 @@ server:
 spring:
   application:
     name: TodoService
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:mydb
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      org:
+        hibernate:
+          envers:
+            audit_table_prefix: HIST_
 app:
   reverseProxy:
     url: http://localhost:4200

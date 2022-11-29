@@ -47,18 +47,21 @@ export class TodoBoxComponent {
   constructor(public service: RestService,
     public staticData: StaticDataService,
     public dialog: MatDialog) {
-
-    staticData.priorities().subscribe(data => this.priorities = data);
-    staticData.status().subscribe(data => this.status = data);
-    service.labels().subscribe(data => this.labels = data);
-
-    service.todos().subscribe(data => {
-        let todoArr: Todo[] = <any>data;
-        for(var i=0; i < todoArr.length; i ++) {
-          this.statusToTodoMapping[todoArr[i].status].push(todoArr[i]);
-        }
-    });
+      staticData.priorities().subscribe(data => this.priorities = data);
+      staticData.status().subscribe(data => this.status = data);
+      service.labels().subscribe(data => this.labels = data);
+      this.service.todos().subscribe(data => this.reloadTodos(data), err => console.log);
   }
+
+  reloadTodos(data: Todo[]) {
+    for (let key in this.statusToTodoMapping) {
+      this.statusToTodoMapping[key].splice(0,this.statusToTodoMapping[key].length);
+    }
+    //load the list
+    for(var i=0; i < data.length; i ++) {
+      this.statusToTodoMapping[data[i].status].push(data[i]);
+    }
+   }
 
   getOtherStatus(curStatus:string) {
     return this.status.filter(curItem => curItem != curStatus)
@@ -97,6 +100,7 @@ export class TodoBoxComponent {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       console.log('different')
+      
       transferArrayItem(event.previousContainer.data,
           event.container.data,
           event.previousIndex,
@@ -133,7 +137,9 @@ export class TodoBoxComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      if (result.reload) {
+        this.service.todos().subscribe(data => this.reloadTodos(data), err => console.log);
+      }
     });
   }
 

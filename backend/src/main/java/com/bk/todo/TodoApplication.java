@@ -1,6 +1,5 @@
 package com.bk.todo;
 
-import com.bk.todo.entities.Label;
 import com.bk.todo.entities.TodoItem;
 import com.bk.todo.entities.TodoList;
 import com.bk.todo.model.Priority;
@@ -10,11 +9,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.envers.repository.config.EnableEnversRepositories;
+import org.springframework.data.envers.repository.support.EnversRevisionRepositoryFactoryBean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootApplication
+@EnableEnversRepositories
+@EnableJpaRepositories(repositoryFactoryBeanClass = EnversRevisionRepositoryFactoryBean.class)
+@EnableTransactionManagement
 @Slf4j
 public class TodoApplication {
 
@@ -37,8 +44,7 @@ public class TodoApplication {
 		TodoList todo = null;
 		todo = TodoList.builder()
 				.priority(priority)
-				.description("dasf")
-				.due(LocalDateTime.now())
+				.due(LocalDate.now())
 				.status(status)
 				.title("something")
 //				.labels(List.of(Label.builder().name(label1).build(),
@@ -47,8 +53,8 @@ public class TodoApplication {
 		log.info("todo instance constructed, attempting to save {}", todo);
 		var savedInstance =repo.save(todo);
 		log.info("todo instance saved successfully {}", todo);
-		todo.setItems(List.of(TodoItem.builder().todo(savedInstance).description("some completed item").isCompleted(true).build(),
-				TodoItem.builder().todo(savedInstance).description("some incomplete item").isCompleted(false).build()));
+		todo.setItems(List.of(TodoItem.builder().todo(savedInstance).description("some completed item").itemOrder(1).isCompleted(true).build(),
+				TodoItem.builder().todo(savedInstance).description("some incomplete item").itemOrder(2).isCompleted(false).build()));
 		repo.save(todo);
 		log.info("todo instance saved successfully for second time) {}", todo);
 		var dbOptional = repo.get(todo.getId());

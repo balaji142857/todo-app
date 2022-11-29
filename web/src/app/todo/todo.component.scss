@@ -3,6 +3,8 @@
 
 :host ::ng-deep .mat-card-header-text {
   margin-left: 0px;
+  margin-right: 0px;
+  width: 100%;
 }
 
 .example-card {
@@ -10,12 +12,32 @@
 }
 .action-wrapper {
   display: flex;
+  align-items: center;
   .priority, .due-date {
     flex-basis: 60%;
   }
   .due-date{
     text-align: right;
     margin-right: 5px;
+    // .regBg{
+    //   background-color: yellow;
+    // }
+    mat-chip {
+      background-color: transparent !important;
+      border:1px solid white;
+    }
+    mat-chip.redBg {
+      // background-color: rgba(255, 51, 0, 0.863);
+      background-image: linear-gradient(to right, rgba(255, 51, 0, 0.863), rgba(0,0,0,0.6));
+    }
+    mat-chip.orangeBg {
+      // background-color: rgba(236, 145, 26, 0.863);
+      background-image: linear-gradient(to right,  rgba(236, 145, 26, 0.863), rgba(0,0,0,0.6));
+    }
+    mat-chip.greenBg {
+      // background-color: rgba(0, 128, 27, 0.88);
+      background-image: linear-gradient(to right, rgba(0, 128, 27, 0.88), rgba(0,0,0,0.6));
+    }
   }
 }
 
@@ -30,11 +52,15 @@ mat-card-title {
   font-size: 15px;
   .todo-title{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    mat-icon {
-      margin-left: 5px;
-    }
+    .right {
+      display: flex;
+      align-items: center;
+      mat-icon {
+        padding: 0 2px;
+      }
+    }    
   }
 }
 mat-card-content {

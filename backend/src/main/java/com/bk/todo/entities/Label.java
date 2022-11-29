@@ -2,6 +2,7 @@ package com.bk.todo.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.envers.Audited;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString(exclude = "todos")
+@Audited
 public class Label {
 
     @Id

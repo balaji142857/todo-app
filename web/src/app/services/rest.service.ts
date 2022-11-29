@@ -31,4 +31,16 @@ export class RestService {
   saveTodo(todo: Todo) {
     return this.http.post(this.basePath+'todos', todo, this.httpOptions);
   }
+
+  history(todoId: number) {
+    let url = `${this.basePath}todos/${todoId}/audit`;
+    return this.http.get(url);
+  }
+
+  getTodo(todoId: number): Observable<Todo> {
+    let url = `${this.basePath}todos/${todoId}`;
+    return this.http.get<Todo>(url);
+  }
+
+
 }

@@ -4,7 +4,9 @@ import com.bk.todo.entities.TodoList;
 import com.bk.todo.entities.repo.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
+import org.springframework.data.history.Revisions;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -30,5 +32,11 @@ public class TodoService {
     @Transactional(readOnly = true)
     public List<TodoList> findAll() {
         return repo.findAll();
+    }
+
+
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
+    public Revisions<Long, TodoList> getHistory(Long id) {
+        return repo.findRevisions(id);
     }
 }

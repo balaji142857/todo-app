@@ -4,10 +4,12 @@ import com.bk.todo.model.Priority;
 import com.bk.todo.model.Status;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RevisionNumber;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Audited
 public class TodoList {
 
     @Id
@@ -25,7 +28,7 @@ public class TodoList {
     private Long id;
     private String title;
     private String description;
-    private LocalDateTime due;
+    private LocalDate due;// TODO consider adding time part
     private Priority priority;
     private Status status;
     @CreatedDate
@@ -41,4 +44,6 @@ public class TodoList {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "todo", cascade = CascadeType.ALL)
     @Builder.Default
     private List<TodoItem> items = new java.util.ArrayList<>();
+    @RevisionNumber
+    private Long revNum;
 }

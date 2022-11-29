@@ -3,16 +3,16 @@
         <mat-card-header>
           <mat-card-title>
             <div class="todo-title">
-              {{ item.title }}
-              <mat-icon (click)="openDialog()">edit</mat-icon>
-              <mat-icon>history</mat-icon>
+              <!-- consider renaming item to model-->
+              <div class="left" matBadge="{{ item.items && item.items.length ? item.items.length : '' }}">{{ item.title }}</div>              
+              <div class="right">
+                <mat-icon (click)="openDialog()">edit</mat-icon>
+                <mat-icon (click)="openHistory()">history</mat-icon>
+              </div>              
             </div>
           </mat-card-title>
           <mat-card-subtitle *ngIf="item.description"> {{ item.description }}</mat-card-subtitle>
         </mat-card-header>
-        <mat-card-content> 
-          
-        </mat-card-content>
         <mat-card-actions>
           <div class="action-wrapper">
             <mat-select [(ngModel)]="item.priority" placeholder="Priority" class="priority">
@@ -20,7 +20,11 @@
             </mat-select>
             <div class="due-date">
                 <ng-container *ngIf="item.dueBy">
-                  {{ item.dueBy  | date }}
+                  <mat-chip selected  [class.redBg]="between((date(item.dueBy).getTime() - now.getTime())/day, Number.NEGATIVE_INFINITY, 1)" 
+                                      [class.orangeBg]="between((date(item.dueBy).getTime() - now.getTime())/day, 2, 3)"
+                                      [class.greenBg]="between((date(item.dueBy).getTime() - now.getTime())/day, 4, Number.POSITIVE_INFINITY)" >
+                    {{ item.dueBy  | date }}
+                  </mat-chip>
                 </ng-container>
             </div>              
           </div>

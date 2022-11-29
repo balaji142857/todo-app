@@ -14,7 +14,7 @@ import { RestService } from '../services/rest.service';
   templateUrl: './todo-dialog.component.html',
   styleUrls: ['./todo-dialog.component.scss']
 })
-export class TodoDialogComponent implements OnInit {
+export class TodoDialogComponent {
 
   todo: Todo;
   newTodoText: string ="";
@@ -23,11 +23,9 @@ export class TodoDialogComponent implements OnInit {
 
   constructor( public dialogRef: MatDialogRef<TodoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    // @Inject(MAT_DIALOG_DEFAULT_OPTIONS) public config: MatDialogConfig,
     public service: RestService,
     public util: UtilService) { 
     this.todo = data.model;
-    // config.panelClass='CRITICAL';
     
     if (!this.todo.labels) {
       this.todo.labels = [];
@@ -35,32 +33,38 @@ export class TodoDialogComponent implements OnInit {
     this.labels = data.labels.filter((item: { id: number; value: string}) => !this.todo.labels?.includes(item.id));
   }
 
-  ngOnInit(): void {
-  }
-
-  someMethod(){
+  addTodoItem(){
     if (!this.newTodoText.length || !this.newTodoText.trim().length) {
       return;
     }
     const todoItem:TodoItem = {
-      isCompleted: false,
-      description: this.newTodoText
+      completed: false,
+      description: this.newTodoText,
+      itemOrder: this.todo.items.length + 1
     }
     this.todo.items.push(todoItem);
     this.newTodoText = '';
   }
 
   drop(event: CdkDragDrop<TodoItem[]>): void {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } 
-    // else {
-    //   transferArrayItem(event.previousContainer.data,
-    //       event.container.data,
-    //       event.previousIndex,
-    //       event.currentIndex);
-    //       console.log(event.container.data,'container data');
-    // }
+    console.log('drop called');
+    const start = event.previousIndex;
+    const end = event.currentIndex;    
+    console.log('start & end indices are ', start, end);
+    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    if (start < end) {
+      for (let i = start; i<=end; i++) {
+        this.todo.items[i].itemOrder=i+1;
+        console.log('updated item order for ' + this.todo.items[i].description +' to ' + this.todo.items[i].itemOrder);
+      }
+    }
+    else {
+      for (let i = start; i>=end; i--) {
+        this.todo.items[i].itemOrder=i+1;
+        console.log('updated item order for ' + this.todo.items[i].description +' to ' + this.todo.items[i].itemOrder);
+      }
+    }
+    
   }
 
   closeDialog() {
@@ -68,9 +72,11 @@ export class TodoDialogComponent implements OnInit {
   }
 
   saveChanges() {
-    console.log('sending todo ', this.todo);
     this.service.saveTodo(this.todo).subscribe(
-      data => console.log, // this.dialogRef.close() ,
+      data => {
+        console.log(data);
+        this.dialogRef.close({reload: true, id: this.todo.id}); 
+      }, 
       err => console.log
     );
   }
@@ -85,7 +91,7 @@ export class TodoDialogComponent implements OnInit {
     if(event.code !=='Enter') {
       return;
     }
-    isTitle ? this.saveTitle() : this.someMethod();
+    isTitle ? this.saveTitle() : this.addTodoItem();
   }
 
   addLabel(event: KeyboardEvent, arg2: any) {
@@ -121,7 +127,12 @@ export class TodoDialogComponent implements OnInit {
     console.log(model, event);
     this.dialogRef.removePanelClass(['CRITICAL','HIGH','MEDIUM','LOW']);
     this.dialogRef.addPanelClass(event);
+  }
 
+  statusChangedChanged(model: string, event: any) {
+    console.log(model, event);
+    // this.dialogRef.removePanelClass(['CRITICAL','HIGH','MEDIUM','LOW']);
+    // this.dialogRef.addPanelClass(event);
   }
 
 }

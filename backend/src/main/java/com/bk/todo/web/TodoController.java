@@ -2,14 +2,18 @@ package com.bk.todo.web;
 
 import com.bk.todo.TodoService;
 import com.bk.todo.entities.TodoList;
+import com.bk.todo.model.AuditModel;
 import com.bk.todo.model.Priority;
 import com.bk.todo.model.Status;
 import com.bk.todo.model.TodoModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.history.Revision;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.sql.Array;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,21 +35,36 @@ public class TodoController {
         return result;
     }
 
-    @GetMapping
-    public List<TodoModel> list() {
-        return List.of(
-                TodoModel.builder().dueBy(LocalDateTime.now()).labels(List.of(1L)).status(IN_PROGRESS.getValue()).id(1L).priority(CRITICAL.name()).title("Critical Task").description("some critical desc").build(),
-                TodoModel.builder().dueBy(LocalDateTime.now()).labels(List.of(2L,3L)).status(COMPLETED.getValue()).id(2L).priority(HIGH.name()).title("High Task").description("some high desc").build(),
-                TodoModel.builder().dueBy(LocalDateTime.now()).labels(List.of(4L)).status(TBD.getValue()).id(3L).priority(MEDIUM.name()).title("Medium Task").description("some medium desc").build(),
-                TodoModel.builder().dueBy(LocalDateTime.now()).id(4L).status(ON_HOLD.getValue()).priority(LOW.name()).title("Low Task").description("some low desc").build());
-    }
-
     @PostMapping
     public TodoModel save(@RequestBody TodoModel item) {
         log.info("Received save request {}",item);
         var dbEntity = entity(item);
         service.save(dbEntity);
         return item;
+    }
+
+    @GetMapping("/{id}")
+    public TodoModel getTodo(@PathVariable Long id) {
+        var item = service.get(id);
+        return this.model(item);
+    }
+
+    @GetMapping("/{id}/audit")
+    List<AuditModel> getRevisions(@PathVariable Long id) {
+        var value =  service.getHistory(id);
+        List<AuditModel> returnValue = new ArrayList<>();
+        if (null != value) {
+            List<Revision<Long, TodoList>> revisions =  value.getContent();
+            for (Revision<Long, TodoList> revision : revisions) {
+                returnValue.add(AuditModel.builder()
+//                        .revision(revId.intValue())
+                        .entity(revision.getEntity())
+                        .type(revision.getMetadata().getRevisionType().name())
+                        .revisionTime(revision.getMetadata().getRevisionInstant().orElse(null))
+                        .build());
+            }
+        }
+        return returnValue;
     }
 
     TodoList entity(TodoModel model) {
@@ -55,6 +74,9 @@ public class TodoController {
         entity.setPriority(Priority.fromString(model.getPriority()));
         entity.setStatus(Status.fromString(model.getStatus()));
         entity.setItems(model.getItems());//TODO this is entity directly from UI
+        if (!CollectionUtils.isEmpty(entity.getItems())) {
+            entity.getItems().forEach(item -> item.setTodo(entity));
+        }
 //        entity.setLabels(model.getLabels()); TODO
         entity.setDescription(model.getDescription());
         entity.setTitle(model.getTitle());
@@ -69,9 +91,10 @@ public class TodoController {
                 .dueBy(entity.getDue())
                 .description(entity.getDescription())
                 .labels(null != entity.getLabels() ? entity.getLabels().stream().map(label -> label.getId()).toList() : new ArrayList<>())
-//                .items(entity.getItems())
+                .items(entity.getItems())
                 .status(entity.getStatus().getValue())
                 .priority(entity.getPriority().name())
                 .build();
     }
+
 }

@@ -19,11 +19,14 @@
     </div>    
   </div>
 </h3>
-<mat-dialog-content class="mat-typography" [ngClass]="[todo.priority]">
+<mat-dialog-content class="mat-typography">
   <div class="metadata-wrapper">
   <div class="options">
     <mat-select [(ngModel)]="todo.priority" placeholder="Priority" class="priority" (ngModelChange)="priorityChanged(todo.priority, $event)">
       <mat-option *ngFor="let option of data.priorities" [value]="option">{{option}}</mat-option>
+    </mat-select>
+    <mat-select [(ngModel)]="todo.status" placeholder="Status" class="status" (ngModelChange)="statusChangedChanged(todo.status, $event)">
+      <mat-option *ngFor="let option of data.statuses" [value]="option">{{option}}</mat-option>
     </mat-select>
     <mat-select placeholder="labels" (selectionChange)="labelSelected($event)">
       <mat-option *ngFor="let label of labels" [value]="label.id">{{label.value}}</mat-option>
@@ -40,12 +43,12 @@
 </div>
   <mat-form-field class="full-width" appearance="fill" >
     <mat-label>Enter new todo item here</mat-label>
-    <input matInput placeholder="Ex Schedule appointment" [(ngModel)]="newTodoText" (blur)="someMethod()" (keyup)="something($event, false)">
+    <input matInput placeholder="Ex Schedule appointment" [(ngModel)]="newTodoText" (blur)="addTodoItem()" (keyup)="something($event, false)">
   </mat-form-field>
   <div class="items-container" cdkDropList #itemsList="cdkDropList" [cdkDropListData]="todo.items"
     (cdkDropListDropped)="drop($event)">
-    <div *ngFor="let item of todo.items; let i = index" cdkDrag [cdkDragData]="item" class="todo-item">      
-        <mat-checkbox [(ngModel)]="item.isCompleted"> {{ item.description }} </mat-checkbox>
+    <div *ngFor="let item of todo.items | todoItemSort; let i = index" cdkDrag [cdkDragData]="item" class="todo-item">      
+        <mat-checkbox [(ngModel)]="item.completed"> {{ item.description }} </mat-checkbox>
         <mat-icon (click)="todo.items.splice(i,1)">delete</mat-icon>
     </div>
   </div>
@@ -53,7 +56,8 @@
 <mat-dialog-actions align="end" >  
   <div class="actions">
     <button mat-button mat-dialog-close (click)="closeDialog()">Cancel</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="saveChanges()">Save</button>
+    <button mat-button cdkFocusInitial (click)="saveChanges()">Save</button>
+    <!-- [mat-dialog-close]="true"  -->
   </div>
   
 </mat-dialog-actions>

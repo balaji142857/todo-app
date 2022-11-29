@@ -24,7 +24,7 @@ public class TodoModel {
     private String priority;
     private String title;
     private String description;
-    private LocalDateTime dueBy;
+    private LocalDate dueBy;
     private String status;
     @Builder.Default
     private List<TodoItem> items = new ArrayList<>();
