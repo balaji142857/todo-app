@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { Label } from '../models/label.model';
-import { Todo } from '../models/todo.model';
-import { RestService } from '../services/rest.service';
-import { UtilService } from '../services/util.service';
-import { TodoDialogComponent } from '../todo-dialog/todo-dialog.component';
-import { TodoHistoryDialogComponent } from '../todo-history-dialog/todo-history-dialog.component';
+import { Label } from '../../models/label.model';
+import { Todo } from '../../models/todo.model';
+import { RestService } from '../../services/rest.service';
+import { UtilService } from '../../services/util.service';
+import { TodoDialogComponent } from '../../dialogs/todo-dialog/todo-dialog.component';
+import { TodoHistoryDialogComponent } from '../../dialogs/todo-history-dialog/todo-history-dialog.component';
 
 @Component({
   selector: 'app-todo',

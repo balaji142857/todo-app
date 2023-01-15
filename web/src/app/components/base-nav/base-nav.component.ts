@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { RestService } from '../services/rest.service';
+import { RestService } from '../../services/rest.service';
 
 @Component({
   selector: 'app-base-nav',
@@ -11,6 +11,7 @@ import { RestService } from '../services/rest.service';
 })
 export class BaseNavComponent {
 
+  isMenuOpen = false;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(

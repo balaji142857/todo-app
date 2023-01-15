@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material/dialog';
-import { Todo } from '../models/todo.model';
-import { UtilService } from '../services/util.service';
 import { MatSelectChange } from '@angular/material/select';
-import { TodoItem } from '../models/todo-item.model';
-import { RestService } from '../services/rest.service';
+import { Todo } from '../../models/todo.model';
+import { UtilService } from '../../services/util.service';
+import { TodoItem } from '../../models/todo-item.model';
+import { RestService } from '../../services/rest.service';
 
 
 

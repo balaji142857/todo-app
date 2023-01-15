@@ -1,0 +1,28 @@
+<div class="wrapper">
+    <div class="onHold">
+        <div class="title">HOLD</div>
+        <div class="todo-wrapper">
+            <app-todo 
+                *ngFor="let item of todos$ | async |  todoStatusFilter: 'HOLD'"
+                class="list-item"           
+                [item]="item"
+                [priorities]="priorities"
+                [statuses]="status"
+                [labels]="labels">
+            </app-todo>
+        </div>
+    </div>
+    <div class="archived">
+        <div class="title">COMPLETED</div>
+        <div class="todo-wrapper">
+            <app-todo
+                *ngFor="let item of todos$ | async |  todoStatusFilter: 'COMPLETED'"
+                class="list-item"           
+                [item]="item"
+                [priorities]="priorities"
+                [statuses]="status"
+                [labels]="labels">
+            </app-todo>
+        </div>
+    </div>
+</div>

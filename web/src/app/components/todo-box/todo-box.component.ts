@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { RestService } from '../services/rest.service';
-import { Todo } from '../models/todo.model';
-import { StaticDataService } from '../services/static-data.service';
-import { Label } from '../models/label.model';
+import { RestService } from '../../services/rest.service';
+import { Todo } from '../../models/todo.model';
+import { StaticDataService } from '../../services/static-data.service';
+import { Label } from '../../models/label.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TodoDialogComponent } from '../todo-dialog/todo-dialog.component';
+import { TodoDialogComponent } from '../../dialogs/todo-dialog/todo-dialog.component';
 
 @Component({
   selector: 'app-todo-box',

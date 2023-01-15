@@ -1,0 +1,21 @@
+.wrapper {
+    width: 100%;
+    height: 90%;   
+    display: flex;
+    flex-direction: column;    
+    padding: 10px;
+
+    .onHold, .archived {
+        flex-basis: 50%;
+    }
+    
+    .todo-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 15px;
+        .list-item {
+            flex-basis: 20%;
+            margin: 5px;
+        }
+    }
+}
