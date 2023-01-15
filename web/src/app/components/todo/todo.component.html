@@ -1,4 +1,4 @@
-<div style="display: block" cdkDrag  >
+<div style="display: block">
     <mat-card class="example-card" [ngClass]="[item.priority]">
         <mat-card-header>
           <mat-card-title>
@@ -15,7 +15,7 @@
         </mat-card-header>
         <mat-card-actions>
           <div class="action-wrapper">
-            <mat-select [(ngModel)]="item.priority" placeholder="Priority" class="priority">
+            <mat-select [(ngModel)]="item.priority" (ngModelChange)="saveTodo()" placeholder="Priority" class="priority">
               <mat-option *ngFor="let option of priorities" [value]="option">{{option}}</mat-option>
             </mat-select>
             <div class="due-date">

@@ -94,5 +94,9 @@ export class TodoComponent implements OnInit {
     );
   }
 
+  saveTodo() {
+    this.service.saveTodo(this.item).subscribe(console.log, console.log);
+  }
+
 }
 
