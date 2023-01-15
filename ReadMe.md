@@ -5,13 +5,13 @@
  - [x] New TODO button on home page
 
 #### bugs:
- - [ ] drag & drop - sometimes different item gets moved !!!
+ - [x] drag & drop - sometimes different item gets moved !!!
  - [x] new/edit dialog - background colour to be changed on status change
- - [ ] on moving todo from one column to another - update status
+ - [x] on moving todo from one column to another - update status
  - [ ] code cleanup
 
 #### features:
- - [ ] hide todo if all items completed & due date is over (settings for due date <3M, 2weeks etc)
+ - [ ] move todo to archive if all items completed & due date is over (settings for due date <3M, 2weeks etc)
  - [x] some indication based on due date - like bgColour / font colour etc
  - [ ] checkbox - filter - select all option
  - [ ] github - add hooks for both backend & web
