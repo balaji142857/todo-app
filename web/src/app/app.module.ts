@@ -2,15 +2,16 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './modules/app-routing.module';
 import { AppComponent } from './app.component';
-import { BaseNavComponent } from './base-nav/base-nav.component';
-import { TodoBoxComponent } from './todo-box/todo-box.component';
-import { TodoComponent } from './todo/todo.component';
-import { TodoDialogComponent } from './todo-dialog/todo-dialog.component';
-import { TodoHistoryDialogComponent } from './todo-history-dialog/todo-history-dialog.component';
-import { TodoItemSortPipe } from './todo-item-sort.pipe';
-import { MaterialModule } from './material/material.module';
+import { BaseNavComponent } from './components/base-nav/base-nav.component';
+import { TodoBoxComponent } from './components/todo-box/todo-box.component';
+import { TodoComponent } from './components/todo/todo.component';
+import { TodoDialogComponent } from './dialogs/todo-dialog/todo-dialog.component';
+import { TodoHistoryDialogComponent } from './dialogs/todo-history-dialog/todo-history-dialog.component';
+import { TodoItemSortPipe } from './pipes/todo-item-sort.pipe';
+import { MaterialModule } from './modules/material.module';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MaterialModule } from './material/material.module';
     TodoComponent,
     TodoDialogComponent,
     TodoHistoryDialogComponent,
-    TodoItemSortPipe
+    TodoItemSortPipe,
+    SettingsComponent
   ],
   imports: [
     BrowserAnimationsModule,
