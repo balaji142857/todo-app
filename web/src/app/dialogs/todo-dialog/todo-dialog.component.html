@@ -46,13 +46,16 @@
 </div>
   <mat-form-field class="full-width" appearance="fill" >
     <mat-label>Enter new todo item here</mat-label>
-    <input matInput placeholder="Ex Schedule appointment" [(ngModel)]="newTodoText" (keyup)="something($event, false)">
+    <input matInput placeholder="Ex Schedule appointment" [(ngModel)]="newTodoItem.description" (keyup)="something($event, false)">
   </mat-form-field>
   <div class="items-container" cdkDropList #itemsList="cdkDropList" [cdkDropListData]="todo.items"
     (cdkDropListDropped)="drop($event)">
     <div *ngFor="let item of todo.items | todoItemSort; let i = index" cdkDrag [cdkDragData]="item" class="todo-item">      
         <mat-checkbox [(ngModel)]="item.completed"> {{ item.description }} </mat-checkbox>
-        <mat-icon (click)="todo.items.splice(i,1)">delete</mat-icon>
+        <span>
+          <mat-icon (click)="editItem(i)">edit</mat-icon>
+          <mat-icon (click)="todo.items.splice(i,1)">delete</mat-icon>
+        </span>
     </div>
   </div>
 </mat-dialog-content>

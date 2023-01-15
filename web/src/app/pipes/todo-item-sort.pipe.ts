@@ -4,7 +4,8 @@ import { TodoItem } from '../models/todo-item.model';
 export type SortOrder = 'asc' | 'desc';
 
 @Pipe({
-  name: 'todoItemSort'
+  name: 'todoItemSort',
+  pure: false
 })
 @Injectable()
 export class TodoItemSortPipe implements PipeTransform {
@@ -12,10 +13,10 @@ export class TodoItemSortPipe implements PipeTransform {
   transform(value: TodoItem[], sortOrder: SortOrder | string = 'asc'): TodoItem[] {
     if (!value || (sortOrder !== 'asc' && sortOrder !== 'desc'))  {
       return value; 
-    }
-    let numberArray = value.sort((a, b) => a.itemOrder - b.itemOrder);
-    var result =  sortOrder === 'asc' ? numberArray : numberArray.reverse();
-    return result;
+    }    
+    let sorted = value.sort((a, b) => a.itemOrder - b.itemOrder);
+    var soretedWithDir =  sortOrder === 'asc' ? sorted : sorted.reverse();
+    return soretedWithDir;
   }
 
 }

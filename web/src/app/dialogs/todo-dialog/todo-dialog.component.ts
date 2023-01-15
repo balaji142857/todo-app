@@ -17,7 +17,7 @@ import { RestService } from '../../services/rest.service';
 export class TodoDialogComponent {
 
   todo: Todo;
-  newTodoText: string ="";
+  newTodoItem: TodoItem = this.getDefaultTodoItem();
   isTitleInEditMode:boolean = false;
   labels: any[]= [];
 
@@ -34,16 +34,16 @@ export class TodoDialogComponent {
   }
 
   addTodoItem(){
-    if (!this.newTodoText.length || !this.newTodoText.trim().length) {
+    if (!this.newTodoItem.description.length || !this.newTodoItem.description.trim().length) {
       return;
     }
-    const todoItem:TodoItem = {
-      completed: false,
-      description: this.newTodoText,
-      itemOrder: this.todo.items.length + 1
-    }
-    this.todo.items.push(todoItem);
-    this.newTodoText = '';
+    this.todo.items.push({
+      completed: this.newTodoItem.completed,
+      description: this.newTodoItem.description,
+      itemOrder: this.newTodoItem.itemOrder != -1 ? this.newTodoItem.itemOrder : this.todo.items.length + 1
+    });
+    console.log(JSON.stringify(this.todo.items));
+    this.newTodoItem = this.getDefaultTodoItem();
   }
 
   drop(event: CdkDragDrop<TodoItem[]>): void {
@@ -133,6 +133,20 @@ export class TodoDialogComponent {
     console.log(model, event);
     // this.dialogRef.removePanelClass(['CRITICAL','HIGH','MEDIUM','LOW']);
     // this.dialogRef.addPanelClass(event);
+  }
+
+  editItem(index: number) {
+    let items  = this.todo.items.splice(index,1);
+    const item = items[0];
+    this.newTodoItem = item;
+  }
+
+  getDefaultTodoItem() {
+    return {
+      completed: false,
+      description: '',
+      itemOrder: -1,    
+    };
   }
 
 }
