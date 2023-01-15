@@ -9,6 +9,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TodoDialogComponent } from '../../dialogs/todo-dialog/todo-dialog.component';
+import { __core_private_testing_placeholder__ } from '@angular/core/testing';
 
 @Component({
   selector: 'app-todo-box',
@@ -26,8 +27,8 @@ export class TodoBoxComponent {
   statusToTodoMapping: any = {
     'TBD': this.tbd,
     'IN PROGRESS': this.inProgress,
-    'COMPLETED': this.completed,
-    'HOLD': this.hold
+    'HOLD': this. hold,
+    'COMPLETED': this.completed
   }
 
   status: string[] = [];
@@ -91,24 +92,6 @@ export class TodoBoxComponent {
       
   }
 
-  drop(event: CdkDragDrop<Todo[]>, dropStatus: string): void {
-    console.log('drop triggered', event);
-    console.log('item.data', JSON.stringify(event.item.data))
-    console.log('container.data', JSON.stringify(event.container.data))
-    if (event.previousContainer === event.container) {
-      console.log('same')
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      console.log('different')
-      
-      transferArrayItem(event.previousContainer.data,
-          event.container.data,
-          event.previousIndex,
-          event.currentIndex);
-          console.log(event.container.data,'container data');
-    }
-  }
-
   // TODO -- this is purely related to checkbox.. why bloat this component with checkbox logic
   toggleAllSelection(selectBox: MatSelect) {
     let op : MatOption;
@@ -125,7 +108,8 @@ export class TodoBoxComponent {
       data: {
         model: todoItem,
         priorities: this.priorities,
-        labels: this.labels
+        labels: this.labels,
+        statuses: this.status
       },
       height: '80vh',
       width: '80vw',
@@ -154,6 +138,32 @@ export class TodoBoxComponent {
       description: '',
       dueBy: new Date().toISOString().split('T')[0]
     }
+  }
+
+  draggingIndex: number = -1;
+  dragginFromList: Todo[] = [];
+  dragDestStatus: string| undefined;
+
+  onDragStart(fromIndex: number, todoList: Todo[]): void {
+    this.draggingIndex = fromIndex;
+    this.dragginFromList = todoList;
+  }
+
+  onDragEnd(): void {
+    if (!this.dragginFromList || this.draggingIndex == -1 || !this.dragDestStatus) {
+      return;
+    }
+    const todo = this.dragginFromList.splice(this.draggingIndex, 1)[0];
+    todo.status = this.dragDestStatus;    
+    this.service.saveTodo(todo).subscribe(console.log, console.log);
+    this.statusToTodoMapping[this.dragDestStatus].push(todo);
+    this.draggingIndex = -1;
+    this.dragginFromList = [];
+    this.dragDestStatus = undefined;
+  } 
+
+  onDragEnter(status: string) {
+    this.dragDestStatus = status;
   }
 
 }
