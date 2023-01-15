@@ -149,7 +149,7 @@ export class TodoBoxComponent {
       items: [],
       priority: 'LOW',
       status: 'TBD',
-      title: 'Todo List title',
+      title: '',
       labels: [],
       description: '',
       dueBy: new Date().toISOString().split('T')[0]
