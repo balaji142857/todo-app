@@ -12,6 +12,8 @@ import { TodoHistoryDialogComponent } from './dialogs/todo-history-dialog/todo-h
 import { TodoItemSortPipe } from './pipes/todo-item-sort.pipe';
 import { MaterialModule } from './modules/material.module';
 import { SettingsComponent } from './components/settings/settings.component';
+import { ArchivedComponent } from './components/archived/archived.component';
+import { TodoStatusFilterPipe } from './pipes/todo-status-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { SettingsComponent } from './components/settings/settings.component';
     TodoDialogComponent,
     TodoHistoryDialogComponent,
     TodoItemSortPipe,
-    SettingsComponent
+    TodoStatusFilterPipe,
+    SettingsComponent,
+    ArchivedComponent
   ],
   imports: [
     BrowserAnimationsModule,
