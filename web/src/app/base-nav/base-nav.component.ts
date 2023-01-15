@@ -11,6 +11,7 @@ import { RestService } from '../services/rest.service';
 })
 export class BaseNavComponent {
 
+  isMenuOpen = false;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
