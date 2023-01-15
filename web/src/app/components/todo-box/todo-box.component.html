@@ -47,67 +47,28 @@
   </div>
   <div class="todo-box-wrapper">
 
-    <div class="container">
-      <h2>TBD</h2>
-      <div class="list" (dragend)="onDragEnd()" (dragenter)="onDragEnter('TBD')">
-          <ng-container  *ngFor="let item of tbd; let index = index">
-            <div [draggable]="true" (dragstart)="onDragStart(index,tbd)" class="list-item-wrapper">
-            <app-todo class="list-item"
-              *ngIf="(filteredPriorities.length == 0 || filteredPriorities.indexOf(item.priority) >= 0) && 
-            (filteredStatus.length == 0 || filteredStatus.indexOf(item.status) >= 0)  &&
-            (filteredLabels.length == 0 ||  containsAny(filteredLabels, item.labels ? item.labels : []))  && 
-            ((!range.value.start && !range.value.end ) || ((range.value.start || range.value.end ) &&  dateInRange(item.dueBy ? item.dueBy : '', range.value.start, range.value.end)))"
-              [item]="item"
-              [priorities]="priorities"
-              [labels]="labels"
-              [statuses]="status">
-            </app-todo>
-          </div>
-        </ng-container>
-      </div>
-    </div>
-
-    <div class="container">
-      <h2>In Progress</h2>
-      <div class="list" (dragend)="onDragEnd()" (dragenter)="onDragEnter('IN PROGRESS')">
-          <ng-container *ngFor="let item of inProgress; let index = index">
-            <div [draggable]="true" (dragstart)="onDragStart(index, inProgress)" class="list-item-wrapper">
-              <app-todo
-                class="list-item"              
+    <ng-container *ngFor="let classification of todoTypes">
+      <div class="container">
+        <h2>{{ classification.status }}</h2>
+        <div class="list" (dragend)="onDragEnd()" (dragenter)="onDragEnter(classification.status)">
+            <ng-container  *ngFor="let item of classification.list; let index = index">
+              <div [draggable]="true" (dragstart)="onDragStart(index,classification.list)" class="list-item-wrapper">
+              <app-todo class="list-item"
                 *ngIf="(filteredPriorities.length == 0 || filteredPriorities.indexOf(item.priority) >= 0) && 
               (filteredStatus.length == 0 || filteredStatus.indexOf(item.status) >= 0)  &&
               (filteredLabels.length == 0 ||  containsAny(filteredLabels, item.labels ? item.labels : []))  && 
               ((!range.value.start && !range.value.end ) || ((range.value.start || range.value.end ) &&  dateInRange(item.dueBy ? item.dueBy : '', range.value.start, range.value.end)))"
                 [item]="item"
                 [priorities]="priorities"
-                [statuses]="status"
-                [labels]="labels">
+                [labels]="labels"
+                [statuses]="status">
               </app-todo>
             </div>
           </ng-container>
+        </div>
       </div>
-    </div>
+  </ng-container>
 
-    <div class="container">
-      <h2>Completed</h2>
-      <div class="list" (dragend)="onDragEnd()" (dragenter)="onDragEnter('COMPLETED')">
-          <ng-container *ngFor="let item of completed; let index = index">
-            <div [draggable]="true" (dragstart)="onDragStart(index, completed)" class="list-item-wrapper">
-              <app-todo
-                class="list-item"              
-                *ngIf="(filteredPriorities.length == 0 || filteredPriorities.indexOf(item.priority) >= 0) && 
-              (filteredStatus.length == 0 || filteredStatus.indexOf(item.status) >= 0)  &&
-              (filteredLabels.length == 0 ||  containsAny(filteredLabels, item.labels ? item.labels : []))  && 
-              ((!range.value.start && !range.value.end ) || ((range.value.start || range.value.end ) &&  dateInRange(item.dueBy ? item.dueBy : '', range.value.start, range.value.end)))"
-                [item]="item"
-                [priorities]="priorities"
-                [statuses]="status"
-                [labels]="labels">
-              </app-todo>
-            </div>
-          </ng-container>        
-      </div>
-    </div>
   </div>
   <button mat-fab class="fab-new-todo" color="primary" (click)="newTodo()">
     <mat-icon>add</mat-icon>

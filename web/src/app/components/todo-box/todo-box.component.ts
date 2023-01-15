@@ -31,6 +31,8 @@ export class TodoBoxComponent {
     'COMPLETED': this.completed
   }
 
+  todoTypes: any[] = [];
+
   status: string[] = [];
   priorities: string[] = [];
   labels: Label[] = [];
@@ -52,6 +54,19 @@ export class TodoBoxComponent {
       staticData.status().subscribe(data => this.status = data);
       service.labels().subscribe(data => this.labels = data);
       this.service.todos().subscribe(data => this.reloadTodos(data), err => console.log);
+      this.setupTodoTypes();      
+  }
+
+  setupTodoTypes() {
+    for(let key in this.statusToTodoMapping) {
+      if (key == 'HOLD') {
+        continue;
+      }
+      this.todoTypes.push({
+        status: key,
+        list: this.statusToTodoMapping[key]
+      });
+    }
   }
 
   reloadTodos(data: Todo[]) {
