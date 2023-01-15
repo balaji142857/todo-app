@@ -1,11 +1,14 @@
 <h3 mat-dialog-title>
   <div class="title-section">
-    <div class="left">
-      <span *ngIf="!isTitleInEditMode">{{ todo.title }}</span>
+    <div class="left">       
+      <span *ngIf="!isTitleInEditMode">
+        {{ todo.title ? todo.title : 'Enter todo title'}}
+      </span>
       <mat-icon (click)="isTitleInEditMode = !isTitleInEditMode" *ngIf="!isTitleInEditMode">edit</mat-icon>
       <ng-container *ngIf="isTitleInEditMode">
         <mat-form-field  appearance="fill" >
-          <input matInput placeholder="Todo List title" [(ngModel)]="todo.title" (blur)="saveTitle()" (keyup)="something($event, true)">
+          <mat-label>Todo title</mat-label>
+          <input matInput placeholder="Enter the title here" [(ngModel)]="todo.title" (keyup)="something($event, true)">
         </mat-form-field>
       </ng-container>
     </div>
@@ -43,7 +46,7 @@
 </div>
   <mat-form-field class="full-width" appearance="fill" >
     <mat-label>Enter new todo item here</mat-label>
-    <input matInput placeholder="Ex Schedule appointment" [(ngModel)]="newTodoText" (blur)="addTodoItem()" (keyup)="something($event, false)">
+    <input matInput placeholder="Ex Schedule appointment" [(ngModel)]="newTodoText" (keyup)="something($event, false)">
   </mat-form-field>
   <div class="items-container" cdkDropList #itemsList="cdkDropList" [cdkDropListData]="todo.items"
     (cdkDropListDropped)="drop($event)">
