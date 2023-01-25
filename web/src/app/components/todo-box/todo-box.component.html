@@ -59,6 +59,7 @@
               (filteredLabels.length == 0 ||  containsAny(filteredLabels, item.labels ? item.labels : []))  && 
               ((!range.value.start && !range.value.end ) || ((range.value.start || range.value.end ) &&  dateInRange(item.dueBy ? item.dueBy : '', range.value.start, range.value.end)))"
                 [item]="item"
+                (itemPurged)="handleItemDeleted(classification.list, item)"
                 [priorities]="priorities"
                 [labels]="labels"
                 [statuses]="status">

@@ -12,13 +12,10 @@ import org.springframework.data.history.Revision;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.bk.todo.model.Priority.*;
-import static com.bk.todo.model.Status.*;
 
 @RestController
 @RequestMapping("/todos")
@@ -29,10 +26,19 @@ public class TodoController {
     private final TodoService service;
 
     @GetMapping("/list")
-    public List<TodoModel> list1() {
-        var items = service.findAll();
-        var result =  items.stream().map(this::model).toList();
-        return result;
+    public List<TodoModel> list() {
+        return listInternal(true);
+    }
+
+    @GetMapping("/listSevenDays")
+    public List<TodoModel> listAll() {
+        return listInternal(false);
+    }
+
+    @PostMapping("/{id}/delete")
+    public void delete(@PathVariable Long id) {
+        log.info("Received delete request {}",id);
+        service.delete(id);
     }
 
     @PostMapping
@@ -83,7 +89,7 @@ public class TodoController {
         return entity;
     }
 
-    TodoModel model(TodoList entity) {
+    private TodoModel model(TodoList entity) {
         var model = new TodoModel();
         return TodoModel.builder()
                 .id(entity.getId())
@@ -97,4 +103,14 @@ public class TodoController {
                 .build();
     }
 
+
+    private List<TodoModel> listInternal(boolean showAllCompleted) {
+        var items = service.findAll();
+        LocalDate ld = LocalDate.now().minusDays(7);
+        var result =  items.stream()
+                .map(this::model)
+                .filter(i -> showAllCompleted || i.getDueBy().isAfter(ld))
+                .toList();
+        return result;
+    }
 }

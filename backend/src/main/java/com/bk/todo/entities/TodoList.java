@@ -41,7 +41,7 @@ public class TodoList {
             inverseJoinColumns = @JoinColumn(name="label_id"))
     @Builder.Default
     private List<Label> labels = new ArrayList<>();
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "todo", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "todo", cascade = CascadeType.ALL,orphanRemoval = true)
     @Builder.Default
     private List<TodoItem> items = new java.util.ArrayList<>();
     @RevisionNumber

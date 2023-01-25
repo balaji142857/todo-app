@@ -1,6 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
 import { Label } from '../../models/label.model';
 import { Todo } from '../../models/todo.model';
 import { RestService } from '../../services/rest.service';
@@ -30,6 +29,9 @@ export class TodoComponent implements OnInit {
 
   @Input()
   statuses: string[] = [];
+
+  @Output()
+  itemPurged: EventEmitter<string>  = new EventEmitter<string>();
   
   constructor(public util: UtilService, public dialog: MatDialog,
     private service: RestService) { }
@@ -96,6 +98,16 @@ export class TodoComponent implements OnInit {
 
   saveTodo() {
     this.service.saveTodo(this.item).subscribe(console.log, console.log);
+  }
+
+  deleteTodo() {
+    if(confirm("Are you sure to delete ")) {
+      this.service.deleteTodo(this.item.id).subscribe(data => {
+        console.log(data);
+        this.itemPurged.emit("deleted");
+      }, console.log);
+    }
+    
   }
 
 }

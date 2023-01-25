@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { RestService } from '../../services/rest.service';
 import { Todo } from '../../models/todo.model';
 import { StaticDataService } from '../../services/static-data.service';
@@ -9,7 +8,6 @@ import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TodoDialogComponent } from '../../dialogs/todo-dialog/todo-dialog.component';
-import { __core_private_testing_placeholder__ } from '@angular/core/testing';
 
 @Component({
   selector: 'app-todo-box',
@@ -42,9 +40,10 @@ export class TodoBoxComponent {
   filteredLabels: number[] =[];
   filteredDate : any;
 
+  
   range = new FormGroup({
-    start: new FormControl(),
-    end: new FormControl()
+    start: new FormControl(new Date(new Date().setDate(new Date().getDate() - 30 ))),
+    end: new FormControl(new Date(new Date().setDate(new Date().getDate() + 30 )))
   });
   
   constructor(public service: RestService,
@@ -179,6 +178,11 @@ export class TodoBoxComponent {
 
   onDragEnter(status: string) {
     this.dragDestStatus = status;
+  }
+
+  handleItemDeleted(todoItems: any[], todoItem: any) {
+    let index = todoItems.indexOf(todoItem);
+    todoItems.splice(index, 1);
   }
 
 }

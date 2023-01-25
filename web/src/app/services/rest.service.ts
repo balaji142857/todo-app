@@ -24,12 +24,21 @@ export class RestService {
     return this.http.get<Todo[]>(this.basePath+'todos/list');
   }
 
+  todosWithoutFilter(): Observable<Todo[]> {
+    return this.http.get<Todo[]>(this.basePath+'todos/listAll');
+  }
+
   labels(): Observable<Label[]> {
     return this.http.get<Label[]>(this.basePath+'labels');
   }
 
   saveTodo(todo: Todo) {
     return this.http.post(this.basePath+'todos', todo, this.httpOptions);
+  }
+
+  deleteTodo(todoId: number | undefined) {
+    let url = `${this.basePath}todos/${todoId}/delete`;
+    return this.http.post(url, this.httpOptions);
   }
 
   history(todoId: number) {

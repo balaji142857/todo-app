@@ -22,6 +22,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatMenuModule } from '@angular/material/menu';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
@@ -51,7 +52,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatChipsModule,
     MatSortModule,
     MatCardModule,
-    DragDropModule   
+    DragDropModule,
+    MatMenuModule   
   ],
   exports: [
     LayoutModule,
@@ -76,7 +78,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatChipsModule,
     MatSortModule,
     MatCardModule,
-    DragDropModule   
+    DragDropModule,
+    MatMenuModule   
   ]
 })
 export class MaterialModule { }

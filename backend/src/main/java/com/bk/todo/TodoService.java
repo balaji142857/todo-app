@@ -21,6 +21,10 @@ public class TodoService {
         return repo.save(item);
     }
 
+    public void delete(Long id) {
+        repo.deleteById(id);
+    }
+
     @Transactional(readOnly = true)
     public TodoList get(Long id) {
         var optional = repo.findById(id);

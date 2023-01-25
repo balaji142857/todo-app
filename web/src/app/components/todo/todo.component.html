@@ -6,8 +6,26 @@
               <!-- consider renaming item to model-->
               <div class="left" matBadge="{{ item.items && item.items.length ? item.items.length : '' }}">{{ item.title }}</div>              
               <div class="right">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="deleteTodo()">
+                    <mat-icon>delete</mat-icon>
+                    <span>Delete</span>
+                  </button>
+                  <button mat-menu-item (click)="openDialog()">
+                    <mat-icon>edit</mat-icon>
+                    <span>Edit</span>
+                  </button>
+                  <button mat-menu-item (click)="openHistory()">
+                    <mat-icon>history</mat-icon>
+                    <span>Audit details</span>
+                  </button>
+                </mat-menu>
+                <!-- <mat-icon (click)="openDialog()">delete</mat-icon>
                 <mat-icon (click)="openDialog()">edit</mat-icon>
-                <mat-icon (click)="openHistory()">history</mat-icon>
+                <mat-icon (click)="openHistory()">history</mat-icon> -->
               </div>              
             </div>
           </mat-card-title>
