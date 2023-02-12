@@ -1,5 +1,7 @@
 package com.bk.todo.web;
 
+import com.bk.todo.entities.Label;
+import com.bk.todo.service.LabelService;
 import com.bk.todo.service.TodoService;
 import com.bk.todo.entities.TodoList;
 import com.bk.todo.model.AuditModel;
@@ -24,6 +26,7 @@ import java.util.List;
 public class TodoController {
 
     private final TodoService service;
+    private final LabelService labelService;
 
     @GetMapping("/test")
     public List<TodoModel> test() {
@@ -88,10 +91,17 @@ public class TodoController {
         if (!CollectionUtils.isEmpty(entity.getItems())) {
             entity.getItems().forEach(item -> item.setTodo(entity));
         }
-//        entity.setLabels(model.getLabels()); TODO
+        entity.setLabels(something(model.getLabels()));
         entity.setDescription(model.getDescription());
         entity.setTitle(model.getTitle());
         return entity;
+    }
+
+    private List<Label> something(List<Long> labels) {
+        if (CollectionUtils.isEmpty(labels)) {
+            return List.of();
+        }
+        return labelService.findAllById(labels);
     }
 
     private TodoModel model(TodoList entity) {
@@ -101,7 +111,7 @@ public class TodoController {
                 .title(entity.getTitle())
                 .dueBy(entity.getDue())
                 .description(entity.getDescription())
-                .labels(null != entity.getLabels() ? entity.getLabels().stream().map(label -> label.getId()).toList() : new ArrayList<>())
+                .labels(null != entity.getLabels() ? entity.getLabels().stream().map(Label::getId).toList() : new ArrayList<>())
                 .items(entity.getItems())
                 .status(entity.getStatus().getValue())
                 .priority(entity.getPriority().name())

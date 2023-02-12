@@ -51,4 +51,8 @@ public class LabelService {
     public void delete(Long id) {
         repo.deleteById(id);
     }
+
+    public List<com.bk.todo.entities.Label> findAllById(List<Long> ids) {
+        return repo.findAllById(ids);
+    }
 }
