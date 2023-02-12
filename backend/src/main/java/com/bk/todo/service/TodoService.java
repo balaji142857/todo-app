@@ -1,7 +1,8 @@
-package com.bk.todo;
+package com.bk.todo.service;
 
 import com.bk.todo.entities.TodoList;
 import com.bk.todo.entities.repo.TodoRepository;
+import com.bk.todo.model.Status;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
 import org.springframework.data.history.Revisions;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -42,5 +44,12 @@ public class TodoService {
     @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
     public Revisions<Long, TodoList> getHistory(Long id) {
         return repo.findRevisions(id);
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<TodoList> findOpenLists() {
+        Set<Status> openStatus = Set.of(Status.IN_PROGRESS, Status.ON_HOLD, Status.TBD);
+        return repo.findByStatusIn(openStatus);
     }
 }

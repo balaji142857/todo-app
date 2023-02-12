@@ -30,7 +30,7 @@ export class ArchivedComponent implements OnInit {
   }
 
   loadTodos() {
-    return this.service.todosWithoutFilter();
+    return this.service.todos();
   }
 
 }

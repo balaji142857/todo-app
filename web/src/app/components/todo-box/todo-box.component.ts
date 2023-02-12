@@ -93,7 +93,6 @@ export class TodoBoxComponent {
     if (!dateStr.length) {
       return false;
     }
-    console.log('invoked',dateStr, from, to)
     var dueDate = new Date(dateStr);
     if (!from) {
         return dueDate <= to;

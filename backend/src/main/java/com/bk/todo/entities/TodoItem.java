@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.Audited;
 
+import java.time.LocalDate;
+
 @Entity
 @Table
 @Builder
@@ -31,5 +33,7 @@ public class TodoItem {
     private boolean isCompleted;
 
     private Integer itemOrder;
+
+    private LocalDate due;// TODO consider adding time part
 
 }

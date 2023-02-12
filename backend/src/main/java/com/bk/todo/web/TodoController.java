@@ -1,6 +1,6 @@
 package com.bk.todo.web;
 
-import com.bk.todo.TodoService;
+import com.bk.todo.service.TodoService;
 import com.bk.todo.entities.TodoList;
 import com.bk.todo.model.AuditModel;
 import com.bk.todo.model.Priority;
@@ -24,6 +24,11 @@ import java.util.List;
 public class TodoController {
 
     private final TodoService service;
+
+    @GetMapping("/test")
+    public List<TodoModel> test() {
+        return  service.findOpenLists().stream().map(this::model).toList();
+    }
 
     @GetMapping("/list")
     public List<TodoModel> list() {

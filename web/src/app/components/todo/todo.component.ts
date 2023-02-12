@@ -103,7 +103,6 @@ export class TodoComponent implements OnInit {
   deleteTodo() {
     if(confirm("Are you sure to delete ")) {
       this.service.deleteTodo(this.item.id).subscribe(data => {
-        console.log(data);
         this.itemPurged.emit("deleted");
       }, console.log);
     }

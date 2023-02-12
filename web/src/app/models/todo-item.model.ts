@@ -3,4 +3,5 @@ export interface TodoItem {
     completed: boolean;
     description: string;
     itemOrder: number;
+    due?: string;
 }

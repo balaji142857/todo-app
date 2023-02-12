@@ -51,11 +51,17 @@
   <div class="items-container" cdkDropList #itemsList="cdkDropList" [cdkDropListData]="todo.items"
     (cdkDropListDropped)="drop($event)">
     <div *ngFor="let item of todo.items | todoItemSort; let i = index" cdkDrag [cdkDragData]="item" class="todo-item">      
-        <mat-checkbox [(ngModel)]="item.completed"> {{ item.description }} </mat-checkbox>
-        <span>
+        <mat-checkbox [(ngModel)]="item.completed"> {{ item.description }} </mat-checkbox>        
+        <div class="actions">
+          <mat-form-field >
+            <mat-label>Due date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="item.due" [max]="todo.dueBy">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
           <mat-icon (click)="editItem(i)">edit</mat-icon>
           <mat-icon (click)="todo.items.splice(i,1)">delete</mat-icon>
-        </span>
+        </div>
     </div>
   </div>
 </mat-dialog-content>

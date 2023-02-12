@@ -4,6 +4,7 @@ import com.bk.todo.entities.TodoItem;
 import com.bk.todo.entities.TodoList;
 import com.bk.todo.model.Priority;
 import com.bk.todo.model.Status;
+import com.bk.todo.service.TodoService;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootApplication
@@ -26,7 +26,7 @@ import java.util.List;
 public class TodoApplication {
 
 	@Autowired
-	TodoService repo;
+    TodoService repo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(TodoApplication.class, args);

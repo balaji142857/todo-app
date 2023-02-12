@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { CdkDragDrop, moveItemInArray  } from '@angular/cdk/drag-drop';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { Todo } from '../../models/todo.model';
 import { UtilService } from '../../services/util.service';
@@ -40,28 +40,24 @@ export class TodoDialogComponent {
     this.todo.items.push({
       completed: this.newTodoItem.completed,
       description: this.newTodoItem.description,
+      due: this.newTodoItem.due ? this.newTodoItem.due : this.todo.dueBy,
       itemOrder: this.newTodoItem.itemOrder != -1 ? this.newTodoItem.itemOrder : this.todo.items.length + 1
     });
-    console.log(JSON.stringify(this.todo.items));
     this.newTodoItem = this.getDefaultTodoItem();
   }
 
   drop(event: CdkDragDrop<TodoItem[]>): void {
-    console.log('drop called');
     const start = event.previousIndex;
     const end = event.currentIndex;    
-    console.log('start & end indices are ', start, end);
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     if (start < end) {
       for (let i = start; i<=end; i++) {
         this.todo.items[i].itemOrder=i+1;
-        console.log('updated item order for ' + this.todo.items[i].description +' to ' + this.todo.items[i].itemOrder);
       }
     }
     else {
       for (let i = start; i>=end; i--) {
         this.todo.items[i].itemOrder=i+1;
-        console.log('updated item order for ' + this.todo.items[i].description +' to ' + this.todo.items[i].itemOrder);
       }
     }
     
@@ -124,7 +120,6 @@ export class TodoDialogComponent {
   }
 
   priorityChanged(model: string, event: any) {
-    console.log(model, event);
     this.dialogRef.removePanelClass(['CRITICAL','HIGH','MEDIUM','LOW']);
     this.dialogRef.addPanelClass(event);
   }
