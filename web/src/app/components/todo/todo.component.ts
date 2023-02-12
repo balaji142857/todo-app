@@ -109,5 +109,13 @@ export class TodoComponent implements OnInit {
     
   }
 
+  getOpenItemCount(): string {
+    if (!this.item || !this.item.items) {
+      return '';
+    }
+    var openItems = this.item.items.reduce( (acc, obj) =>  acc + (obj.completed ? 0: 1), 0);
+    return openItems == 0 ? '' : openItems+'';
+  }
+
 }
 

@@ -3,8 +3,7 @@
         <mat-card-header>
           <mat-card-title>
             <div class="todo-title">
-              <!-- consider renaming item to model-->
-              <div class="left" matBadge="{{ item.items && item.items.length ? item.items.length : '' }}">{{ item.title }}</div>              
+              <div class="left" matBadge="{{ getOpenItemCount() }}">{{ item.title }}</div>              
               <div class="right">
                 <mat-icon (click)="openDialog()">edit</mat-icon>
                 <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
